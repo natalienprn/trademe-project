@@ -401,50 +401,6 @@ const cardData: CardData[] = [
         ]
 
     },
-    {
-        id: '9',
-        productName: 'PS5 Disc Console Controller Vinyl Decal Cover Skin Sony Playstation Game Sticker',
-        productImg: ['https://trademe.tmcdn.co.nz/photoserver/full/1977544065.jpg', 'https://trademe.tmcdn.co.nz/photoserver/plus/1977544080.jpg', 'https://trademe.tmcdn.co.nz/photoserver/plus/1977544100.jpg'],
-        description: '',
-        city: 'Auckland',
-        closeDate: 'Sat, 2 Dec',
-        shippingInfo: 'Shipping from $115.00',
-        proStatus: 'Buy Now',
-        oldPrice: '$4,999',
-        currentPrice: '$3,999',
-        categoryID: 2,
-        shopName: 'string',
-        condition: 'new',
-        memory: '',
-        hardDriveSize: '',
-        cores: '',
-
-        color: '',
-        brand: 'Sofacreations',
-        fullDescription: [
-            'The beautiful Moon Sofa by Sofacreations. This stylish, Organic in shape and sculptural sofa is exquisitely upholstered in a gorgeous, Ovis Ivory fabric from Warwick, a sublime seating arrangement that will redefine both modern and traditional interiors. It can smartly divide large, open-plan living areas.',
-            'Model: Moon Sofa and Ottoman',
-            'Fabric: Warwick Ovis ivory (Ready for Delivery) ',
-            'Dimensions approx. (mm): L3150 x D900',
-            'Warranty: </br> 5 years on foam, fabric, and workmanship </br> 2 years on fabric',
-            'Customization options are available in different sizes, fabrics, and colors starting from $4999</br>*Made-to-order lead time 6-8 weeks.</br>*Moon chair not included</br>*Moon Chair $1499</br>*Measurement is Approx.',
-            'The Sofa creations is 100% NZ owned and operated sofa manufacturer with over 22 years of experience in furniture. Our innovative products are perfectly designed with excellent quality of solid wood, thick foam and exceptionally durable smooth fabrics gives you all comfort in corner of your room while having a cup of hot drink. Why don’t you visit us? We are excited to show you wide range of New Zealand made sofas and lounge suit display at out in Auckland and Wellington stores.',
-            'Our product and expertise:',
-            'Lounge chair, chaise, Coffee table</br>Corner couch, Sectional sofa, Modular sofa</br>Sofa beds, Mattress</br>3 or 2 Seater unit</br>Customizations of size, fabric foam and color for home, office and hospitality requirement.</br>Packing & Delivery: We can arrange delivery nationwide at standard delivery charges.',
-            'Payment Options: Cash, EFTPOS, Online Banking, Interest free Qcard options (Check inside store)',
-            'Return or Refund Policy</br>we will replace /repair or exchange if you notify us within 7 days. We will not refund if you simply \'change your mind\'. for detail T&C confirm with store before buying.',
-            'Contact us: To get the quote visit our Auckland or Wellington Showroom',
-            'NZ MADE SOFAS DIRECT TO YOU at factory prices'
-        ],
-        shippingPrice: [
-            { destination: 'North Island 11-18 days, Economy', price: '$350.00' },
-            { destination: 'South Island 19-32 days, Economy', price: '$550.00' },
-            { destination: 'Auckland 11-18 days, Economy', price: '$115.00' },
-            { destination: 'Pick-up available from Auckland City, Auckland', price: 'Free' }
-
-        ]
-
-    },
 
 
 ];

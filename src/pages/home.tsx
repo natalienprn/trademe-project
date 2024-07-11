@@ -5,59 +5,45 @@ import "./home.css";
 import cardData from "../data/data";
 import TopBar from "../component/TopBar";
 import FooterBlock from "../component/FooterBlock";
-import CateItem from "../data/categoryList";
+import CateItem from "../data/cateList";
 import Carousel from "../component/Carousel";
-// import { Link } from "react-router-dom";
-import { pageNavigation } from "../commonLogic/NavigationUtils";
 
 import { useNavigate, createSearchParams } from "react-router-dom";
 
-// import { CardData } from "../data/data";
+import { CardData } from "../data/data";
 
 function Home() {
   const [keyword, setKeyword] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<number>(1);
   const navigate = useNavigate();
+  const [category, setCategory] = useState("");
 
-  const {handleSearch} = pageNavigation();
-
-  // const {handleSearch} = useNavigate();
-  
 
   // for recommend products to show
-  // const [products, setProducts] = useState<CardData[]>([]);
+  const [products, setProducts] = useState<CardData[]>([]);
 
-  function handleCategorySeach(categoryID: number){
-    console.log("cateSearch: ", categoryID);
-    navigate({
-      pathname: `/result/${categoryID}`,
-      search: createSearchParams({ keyword }).toString(),
-    });
-    
-    // handleSearch(categoryID, keyword);
-  }
+  // function handleSearch(event: FormEvent<HTMLFormElement>) {
+  //   event.preventDefault();
+  //   if (selectedCategory) {
+  //     navigate({
+  //       pathname: `/result/${selectedCategory}`,
+  //       search: createSearchParams({ keyword }).toString(),
+  //     });
+  //     // searchProducts(keyword, selectedCategory);
+  //     // createSearchParams({ keyword, category: String(selectedCategory) }).toString();
 
-  function handleSearchBlock(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (selectedCategory) {
-      navigate({
-        pathname: `/result/${selectedCategory}`,
-        search: createSearchParams({ keyword }).toString(),
-      });
-      
-      // handleSearch(selectedCategory, keyword);
-      // searchProducts(keyword, selectedCategory);
-      // createSearchParams({ keyword, category: String(selectedCategory) }).toString();
-
-      console.log("it is push this id: ", selectedCategory);
-      console.log("it is push this kw: ", keyword);
-    } else {
-      return(<>
-      Category not found
-      </>);
-      // navigate(`/result/${searchParams}`);
-    }
-  }
+  //     console.log("it is push this id: ", selectedCategory);
+  //     console.log("it is push this kw: ", keyword);
+  //   } else {
+  //     return(<>
+  //     Category not found
+  //     </>);
+  //     // navigate(`/result/${searchParams}`);
+  //   }
+  // }
+  const handleSearch = () => {
+    navigate(`/results?keyword=${keyword}&category=${category}`);
+  };
 
   return (
     <>
@@ -73,7 +59,7 @@ function Home() {
         </div>
         <div className="search-section">
           <div className="search-block">
-            <form onSubmit={handleSearchBlock}>
+            
               <div className="search-by-kw">
                 <label className="search-heading">
                   Search by keyword
@@ -96,27 +82,27 @@ function Home() {
                 <select
                   name="category"
                   id="category"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(Number(e.target.value))}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="">Select a category</option>
-                  {CateItem.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.item}
+                  {CateItem.map(cate => (
+                    <option key={cate.id} value={cate.id}>
+                      {cate.item}
                     </option>
                   ))}
                 </select>
               </div>
               <button
                 className="search-mp"
-                type="submit"
-                onClick={() => {
-                  handleSearch;
-                }}
+               
+                onClick={
+                  handleSearch
+                }
               >
                 Search Marketplace
               </button>
-            </form>
+           
           </div>
           <div className="search-section-footer">
             <a
@@ -139,9 +125,7 @@ function Home() {
           <div className="cate-list">
             <ul>
               {CateItem.slice(1).map((item) => (
-                <li key={item.id} onClick={() => handleCategorySeach(item.id)}>
-                  {item.item}
-                  </li>
+                <li key={item.id}>{item.item}</li>
               ))}
             </ul>
           </div>

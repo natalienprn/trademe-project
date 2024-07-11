@@ -16,6 +16,7 @@ import IconBuyerProtection from '/icon/shield-icon.png';
 import IconStars from '/icon/five-stars-icon.png';
 
 
+
 interface ProductInfo{
   cardData: CardData[];
 }
