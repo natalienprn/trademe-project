@@ -81,10 +81,10 @@ function SearchPage() {
             Showing results
             <div className="result-display">
               {searchResults.length > 0 ? (
-                searchResults.map((card, index) => (
+                searchResults.map((product, index) => (
                 // <DealCard key={index} data={card}/>
-                <Link to={`/product/${card.id}`} key={index}>
-                  <ProductCard data={card} />
+                <Link to={`/product/${product.productId}`} key={index}>
+                  <ProductCard data={product} />
                 </Link>
               ))
             ): (

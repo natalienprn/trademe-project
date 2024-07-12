@@ -8,10 +8,11 @@ import TrademeLogoSmall from '/logo-small.png';
 import { useState, useRef } from 'react';
 
 import CateItem from '../data/cateList';
+
 import BrowseItem from '../data/browselist';
 
 
-import { searchProducts } from '../commonLogic/SearchLogic';
+// import { searchProducts } from '../commonLogic/SearchLogic';
 
 import IconArrowGrey from '/icon/arrow-down-gr.png';
 import IconArrowWhite from '/icon/arrow-down-24-wh.png';
@@ -26,7 +27,7 @@ import IconNavBarUser from '/icon/user-96.png';
 const TopBar:React.FC = ()=>{
   const[BrowseDropdown, setBrowseDropdown] = useState(false);
   const[BrowseMpDropdown, setBrowseMpDropdown] = useState(false);
-  const [CateItem, setCateItem] = useState<CateItem[]>([]); 
+  // const [CateItem, setCateItem] = useState<CateItem[]>([]); 
   const [products, setProducts] = useState<CardData[]>([]); 
 
   const DropdownRef = useRef<HTMLDivElement>(null);
@@ -103,6 +104,7 @@ const TopBar:React.FC = ()=>{
                     <div className='dd-col-wrapper'>
                       {[...Array(ddColumns)].map((_, columnIndex)=>(
                         <div key={columnIndex} className='dd-col'>
+
                           {BrowseItem
                           .slice(1+ columnIndex * ddEachColumnB,1+ (columnIndex+1)*ddEachColumnB )
                           .map((item) =>(
