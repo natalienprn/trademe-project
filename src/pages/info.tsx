@@ -10,18 +10,14 @@ import SlideShow from '../component/SlideShow';
 // import { CardData } from '../data/data';
 import { useProductContext } from '../commonLogic/ProductContext';
 import { useParams } from 'react-router-dom';
+import { useCartContext } from '../commonLogic/CartContext';
 
 import IconShippingGrey from '/icon/shipping-icon.png';
 import IconLocation from '/icon/gps-icon.png';
 import IconBuyerProtection from '/icon/shield-icon.png';
 import IconStars from '/icon/five-stars-icon.png';
 import { Product } from '../data/dataGenerator';
-
-
-
-// interface ProductCardProps{
-//   data: Product;
-// }
+// import { CardData } from '../data/data';
 
 
 
@@ -29,6 +25,7 @@ const Info: React.FC= () => {
   const {id} = useParams<{id: string}>();
   const{products} = useProductContext();
   const selectedCard = products.find((product) => product.productId === parseInt(id ?? '', 10));
+  const {addToCart} = useCartContext();
 
   if(!selectedCard){
     return<div>Product not found</div>;
@@ -37,6 +34,11 @@ const Info: React.FC= () => {
 
   const handleWatchlist = ()=> {
     alert("Added!")
+  }
+
+  const handleAddToCart = () =>{
+    addToCart(selectedCard);
+    alert("Added to Cart!");
   }
 
 
@@ -269,7 +271,7 @@ const Info: React.FC= () => {
                 </div>
                 
                 <button className='btn-buynow'>Buy now</button>
-                <button className='btn-addtocart'>Add to cart</button>
+                <button className='btn-addtocart' onClick={handleAddToCart}>Add to cart</button>
               </div>
               <div className='shipping-deals'>
                 <div className='shipping-deal'> 

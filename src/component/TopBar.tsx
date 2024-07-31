@@ -1,18 +1,15 @@
 // import React from 'react';
 import './TopBar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CardData } from '../data/data';
 
 import TrademeLogo from '/trademe-logo.jpg';
 import TrademeLogoSmall from '/logo-small.png';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect} from 'react';
 
 import CateItem from '../data/cateList';
-
 import BrowseItem from '../data/browselist';
-
-
-// import { searchProducts } from '../commonLogic/SearchLogic';
+import { useCartContext } from '../commonLogic/CartContext';
 
 import IconArrowGrey from '/icon/arrow-down-gr.png';
 import IconArrowWhite from '/icon/arrow-down-24-wh.png';
@@ -21,10 +18,19 @@ import IconNavBarWatchlist from '/icon/binoculars.png';
 import IconNavBarFav from '/icon/heart-64.png';
 import IconNavBarEdit from '/icon/edit.png';
 import IconNavBarUser from '/icon/user-96.png';
+import IconCart from '/icon/cart-icon.png';
 
 
-
+interface BrowseItemType{
+  id: number;
+  item: string;
+}
+interface CateItemType{
+  id: number;
+  item: string;
+}
 const TopBar:React.FC = ()=>{
+  const {cartCount} = useCartContext();
   const[BrowseDropdown, setBrowseDropdown] = useState(false);
   const[BrowseMpDropdown, setBrowseMpDropdown] = useState(false);
   // const [CateItem, setCateItem] = useState<CateItem[]>([]); 
@@ -32,6 +38,8 @@ const TopBar:React.FC = ()=>{
 
   const DropdownRef = useRef<HTMLDivElement>(null);
   const MpDropdownRef = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
 
   const toggleDropdown = () =>{
     setBrowseDropdown(!BrowseDropdown);
@@ -48,6 +56,17 @@ const TopBar:React.FC = ()=>{
     if(BrowseMpDropdown && !MpDropdownRef.current?.contains(e.target as Node)){
       setBrowseMpDropdown(false);
     }
+  }
+
+  const handleBrowseItem =(item: BrowseItemType) => {
+    const keywordB = '';
+    const categoryB = item.id;
+    navigate(`/results?keyword=${keywordB}&category=${categoryB}`);
+  }
+  const handleBrowseMPItem =(item: CateItemType) => {
+    const keywordMP = '';
+    const categoryMP = item.id;
+    navigate(`/results?keyword=${keywordMP}&category=${categoryMP}`);
   }
 
   window.addEventListener("click", handleClickOutside)
@@ -108,7 +127,7 @@ const TopBar:React.FC = ()=>{
                           {BrowseItem
                           .slice(1+ columnIndex * ddEachColumnB,1+ (columnIndex+1)*ddEachColumnB )
                           .map((item) =>(
-                            <a key = {item.id} href='#'>
+                            <a key = {item.id} href='#' onClick={() => handleBrowseItem(item)}>
                               {item.item}
                             </a>
                             
@@ -144,6 +163,14 @@ const TopBar:React.FC = ()=>{
           </div>
           <div className='navbar-right'>
             <ul>
+              {cartCount > 0 && (
+                <li>
+                  <Link to = "/cart" className='navbar-iconlist'>
+                    <img src={IconCart} className='icon-navbar'/>
+                    <div>Cart ({cartCount})</div>
+                  </Link>
+                </li>
+              )}
               <li >
                 <div className='navbar-iconlist'>
                   <img src={IconNavBarWatchlist} className='icon-navbar'/>
@@ -194,7 +221,7 @@ const TopBar:React.FC = ()=>{
                         {CateItem
                         .slice(1+ columnIndex * ddEachColumn,1+ (columnIndex+1)*ddEachColumn )
                         .map((item) =>(
-                          <a key = {item.id} href='#'>
+                          <a key = {item.id} href='#' onClick={() => {handleBrowseMPItem(item)}}>
                             {item.item}
                           </a>
                         ))}

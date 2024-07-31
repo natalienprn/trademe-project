@@ -20,12 +20,13 @@ export interface Product {
 
     fullDescription: string[];
     shippingPrice: ShippingPrice[];
+    quantity: number;
 
 }
 
 interface ShippingPrice{
     destination: string;
-    price: string;
+    price: number;
 }
 
 export const generateData = (count: number, maxCategoryId: number): Product[] =>{
@@ -58,7 +59,8 @@ export const generateData = (count: number, maxCategoryId: number): Product[] =>
             ),
             shippingPrice: Array.from({length:7},() =>
            ({ destination: faker.location.city(), 
-            price: faker.commerce.price()}))
+            price: Number(faker.commerce.price())})),
+            quantity: 1
 
         });
     }

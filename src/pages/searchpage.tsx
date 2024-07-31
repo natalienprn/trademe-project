@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "./searchpage.css";
 
 import cardData, { CardData } from "../data/data";
-import CateItem from "../data/cateList";
+// import CateItem from "../data/cateList";
+import AllCateItem from "../data/allCategories";
 import { searchProducts } from "../commonLogic/SearchLogic";
 
 import TopBar from "../component/TopBar";
@@ -14,7 +15,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import ProductCard from "../component/ProductCard";
-import { extractParamsFromUrl } from "../commonLogic/FindParam";
+// import { extractParamsFromUrl } from "../commonLogic/FindParam";
 import { useProductContext } from "../commonLogic/ProductContext";
 import { Product } from "../data/dataGenerator";
 
@@ -32,7 +33,7 @@ function SearchPage() {
   console.log("Received Category ID:", categoryId);
 
   useEffect(() => {
-    const category = CateItem.find((category) => category.id === categoryId);
+    const category = AllCateItem.find((category) => category.id === categoryId);
     const categoryName = category ? category.item : "Unknown Category";
     const categoryDetail = category ? category.description : "No deails";
 

@@ -26,7 +26,7 @@ const BrowseItem: BrowseItem[] = [
     { id: 21, item: 'Sports' },
     { id: 22, item: 'Toys & models' },
     { id: 23, item: 'Travel, events & activities' },
-    { id: 24, item: 'Trade Me Stores' },
+
   ];
   
   export default BrowseItem;

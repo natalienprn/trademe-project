@@ -1,0 +1,25 @@
+.cart-topbar{
+    background-color: #F6F5F3;
+    padding-top: 2.6px;
+ }
+
+.cart-topbar-content{
+    margin: 0px auto;
+    width: 980px;
+    font-size: 11.5px;
+    padding-top: 5px;
+}
+.cart-topbar-content ul{
+    display: flex;
+    
+    list-style-type: none;
+    margin: 8px 10px 0 10px;
+ 
+    padding-left: 0;
+
+}
+.cart-topbar-content ul li{
+    padding: 8px 8px 3.5px 8px;
+    margin-right: 17px;
+    margin-bottom: -1.2px;
+}
