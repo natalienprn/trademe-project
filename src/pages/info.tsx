@@ -16,7 +16,7 @@ import IconShippingGrey from '/icon/shipping-icon.png';
 import IconLocation from '/icon/gps-icon.png';
 import IconBuyerProtection from '/icon/shield-icon.png';
 import IconStars from '/icon/five-stars-icon.png';
-import { Product } from '../data/dataGenerator';
+// import { Product } from '../data/dataGenerator';
 // import { CardData } from '../data/data';
 
 

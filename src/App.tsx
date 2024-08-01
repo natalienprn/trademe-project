@@ -1,10 +1,10 @@
 import './App.css'
-import React from 'react';
-import { BrowserRouter,Route, Router, Routes } from 'react-router-dom';
+
+import { Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
 import Info from './pages/info';
 import SearchPage from './pages/searchpage';
-import cardData from './data/data';
+
 import { ProductProvider } from './commonLogic/ProductContext';
 import Cart from './pages/cart';
 import { CartProvider } from './commonLogic/CartContext';

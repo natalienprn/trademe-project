@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import "./searchpage.css";
 
-import cardData, { CardData } from "../data/data";
-// import CateItem from "../data/cateList";
+
 import AllCateItem from "../data/allCategories";
 import { searchProducts } from "../commonLogic/SearchLogic";
 
@@ -10,8 +9,7 @@ import TopBar from "../component/TopBar";
 import FooterBlock from "../component/FooterBlock";
 import {
   Link,
-  useLocation,
-  useParams,
+
   useSearchParams,
 } from "react-router-dom";
 import ProductCard from "../component/ProductCard";
