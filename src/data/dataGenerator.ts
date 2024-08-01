@@ -1,5 +1,5 @@
 import {faker} from'@faker-js/faker';
-import CateItem from './cateList';
+
 export interface Product {
     productId: number;
     productName: string;

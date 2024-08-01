@@ -1,8 +1,7 @@
 
 import './CartHeader.css'
-import TopBar from '../component/TopBar';
 import CateItem from '../data/cateList';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import IconArrowDwBl from '/icon/arrow-down-bl.png'
 import { Link } from 'react-router-dom';
