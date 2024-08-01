@@ -1,11 +1,11 @@
 // import React from 'react';
 import './TopBar.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { CardData } from '../data/data';
+
 
 import TrademeLogo from '/trademe-logo.jpg';
 import TrademeLogoSmall from '/logo-small.png';
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef} from 'react';
 
 import CateItem from '../data/cateList';
 import BrowseItem from '../data/browselist';
@@ -34,7 +34,7 @@ const TopBar:React.FC = ()=>{
   const[BrowseDropdown, setBrowseDropdown] = useState(false);
   const[BrowseMpDropdown, setBrowseMpDropdown] = useState(false);
   // const [CateItem, setCateItem] = useState<CateItem[]>([]); 
-  const [products, setProducts] = useState<CardData[]>([]); 
+  // const [products, setProducts] = useState<CardData[]>([]); 
 
   const DropdownRef = useRef<HTMLDivElement>(null);
   const MpDropdownRef = useRef<HTMLDivElement>(null);

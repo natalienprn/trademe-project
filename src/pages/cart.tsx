@@ -9,7 +9,7 @@ import cardData from '../data/data';
 import CartHeader from '../component/CartHeader';
 import CartTopBar from '../component/CartTopBar';
 const Cart: React.FC = () => {
-  const { cartItems, updateQuantity, clearCart, selectedDestination, updateDestination, getShippingPrice } = useCartContext();
+  const { cartItems, updateQuantity } = useCartContext();
 const [selectedShipping, setSelectedShipping] = useState<{ [key: string]:number}>({});
 
   console.log(cartItems);

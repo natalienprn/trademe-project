@@ -9,7 +9,7 @@ import { useCartContext } from '../commonLogic/CartContext';
 
 
 const CartHeader:React.FC = () => {
-    const { cartItems, updateQuantity, clearCart, selectedDestination, updateDestination, getShippingPrice } = useCartContext();
+    const { cartItems } = useCartContext();
 
 
   console.log(cartItems);
@@ -20,10 +20,10 @@ const CartHeader:React.FC = () => {
     setSelectedCategory(event.target.value);
   };
 
-  const getSelectedCategoryName = () => {
-    const category = CateItem.find(cat => cat.item === selectedCategory);
-    return category ? category.item: '';
-  };
+//   const getSelectedCategoryName = () => {
+//     const category = CateItem.find(cat => cat.item === selectedCategory);
+//     return category ? category.item: '';
+//   };
 
 
 

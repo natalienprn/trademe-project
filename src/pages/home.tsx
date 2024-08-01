@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import "./info.css";
 import "./home.css";
 
@@ -8,19 +8,19 @@ import FooterBlock from "../component/FooterBlock";
 import CateItem from "../data/cateList";
 import Carousel from "../component/Carousel";
 
-import { useNavigate, createSearchParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
-import { CardData } from "../data/data";
+// import { CardData } from "../data/data";
 
 function Home() {
   const [keyword, setKeyword] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<number>(1);
+  // const [selectedCategory, setSelectedCategory] = useState<number>(1);
   const navigate = useNavigate();
   const [category, setCategory] = useState("");
 
 
   // for recommend products to show
-  const [products, setProducts] = useState<CardData[]>([]);
+  // const [products, setProducts] = useState<CardData[]>([]);
 
   // function handleSearch(event: FormEvent<HTMLFormElement>) {
   //   event.preventDefault();
