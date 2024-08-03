@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from '../component/Carousel';
 import cardData from '../data/data';
-import CartHeader from '../component/CartHeader';
-import CartTopBar from '../component/CartTopBar';
+import CartHeader from '../component/cart-header/CartHeader';
+import CartTopBar from '../component/cart-header/CartTopBar';
 const Cart: React.FC = () => {
   const { cartItems, updateQuantity } = useCartContext();
 const [selectedShipping, setSelectedShipping] = useState<{ [key: string]:number}>({});

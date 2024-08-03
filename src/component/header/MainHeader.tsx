@@ -1,5 +1,5 @@
-// import React from 'react';
-import './TopBar.css';
+import './Header.css'
+import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -7,12 +7,10 @@ import TrademeLogo from '/trademe-logo.jpg';
 import TrademeLogoSmall from '/logo-small.png';
 import { useState, useRef} from 'react';
 
-import CateItem from '../data/cateList';
-import BrowseItem from '../data/browselist';
-import { useCartContext } from '../commonLogic/CartContext';
+import BrowseItem from '../../data/browselist';
+import { useCartContext } from '../../commonLogic/CartContext';
 
 import IconArrowGrey from '/icon/arrow-down-gr.png';
-import IconArrowWhite from '/icon/arrow-down-24-wh.png';
 import IconNavBarSearch from '/icon/search-48.png';
 import IconNavBarWatchlist from '/icon/binoculars.png';
 import IconNavBarFav from '/icon/heart-64.png';
@@ -21,16 +19,14 @@ import IconNavBarUser from '/icon/user-96.png';
 import IconCart from '/icon/cart-icon.png';
 
 
+
 interface BrowseItemType{
-  id: number;
-  item: string;
-}
-interface CateItemType{
-  id: number;
-  item: string;
-}
-const TopBar:React.FC = ()=>{
-  const {cartCount} = useCartContext();
+    id: number;
+    item: string;
+  }  
+
+const MainHeader:React.FC = () =>{
+    const {cartCount} = useCartContext();
   const[BrowseDropdown, setBrowseDropdown] = useState(false);
   const[BrowseMpDropdown, setBrowseMpDropdown] = useState(false);
   // const [CateItem, setCateItem] = useState<CateItem[]>([]); 
@@ -45,9 +41,6 @@ const TopBar:React.FC = ()=>{
     setBrowseDropdown(!BrowseDropdown);
   };
 
-  const toggleMpDropdown = () =>{
-    setBrowseMpDropdown(!BrowseMpDropdown);
-  };
 
   const handleClickOutside =  (e:any) =>{
     if(BrowseDropdown && !DropdownRef.current?.contains(e.target as Node)){
@@ -63,44 +56,15 @@ const TopBar:React.FC = ()=>{
     const categoryB = item.id;
     navigate(`/results?keyword=${keywordB}&category=${categoryB}`);
   }
-  const handleBrowseMPItem =(item: CateItemType) => {
-    const keywordMP = '';
-    const categoryMP = item.id;
-    navigate(`/results?keyword=${keywordMP}&category=${categoryMP}`);
-  }
 
   window.addEventListener("click", handleClickOutside)
 
   const ddColumns = 4;
-  const ddEachColumn = Math.ceil(CateItem.length / ddColumns);
   const ddEachColumnB = Math.ceil(BrowseItem.length / ddColumns);
 
 
-    return(
 
-        <div className='wrapper'>
-       {/* top-bar1 */}
-       <div className='wrapper-topbar'>
-        <div className='top-bar'>
-          <div className='top-bar-left'>
-            <ul>
-              <li>Trade Me</li>
-              <li>Trade Me Insurance</li>
-              <li>Holiday Houses</li>
-              <li>FindSomeone</li>
-              <li>MotorWeb</li>
-              <li>homes.co.nz</li>
-            </ul>
-          </div>
-          <div className='top-bar-right'>
-            <ul>
-              <li>Register</li>
-              <li>Log in</li>
-            </ul>
-          </div>    
-        </div>
-        </div>
-        {/* top-bar2 */}
+    return(
         <div className='navbar'>
           <div className='navbar-left'>
             
@@ -173,15 +137,20 @@ const TopBar:React.FC = ()=>{
               )}
               <li >
                 <div className='navbar-iconlist'>
+                  
                   <img src={IconNavBarWatchlist} className='icon-navbar'/>
                   <div>Watchlist</div> 
                 </div>
                 </li>
               <li className='navbar-hidden '>
+                <Link to="/favourites">
                 <div className='navbar-iconlist'>
-                <img src={IconNavBarFav} className='icon-navbar'/>
-                <div>Favourites</div>
-                </div>
+                  
+                    <img src={IconNavBarFav} className='icon-navbar'/>
+                    <div>Favourites</div>
+                
+                </div>  
+                </Link>
               </li>
               <li className='navbar-hidden'>
                 <div className=' navbar-iconlist'>
@@ -201,57 +170,6 @@ const TopBar:React.FC = ()=>{
             </ul>
           </div>    
         </div>
-        {/* navbar - marketplace */}
-        <div className='wrapper-navbar-mp'>
-        <div className='navbar-mp'>
-          <div className='navbar-left'>
-            <ul>
-              <div className='browse-div' ref={MpDropdownRef}>
-                <li className='browse-list' onClick={() => toggleMpDropdown()}>
-                Browse Marketplace
-                <img src={IconArrowWhite} className='icon-navbar'/>
-                <div id='browse-dd-mp' 
-                style = {{ display: BrowseMpDropdown ? 'block' : 'none'}}
-                onClick={(e) => e.stopPropagation()}
-                >
-        
-                  <div className='dd-col-wrapper'>
-                    {[...Array(ddColumns)].map((_, columnIndex)=>(
-                      <div key={columnIndex} className='dd-col-mp'>
-                        {CateItem
-                        .slice(1+ columnIndex * ddEachColumn,1+ (columnIndex+1)*ddEachColumn )
-                        .map((item) =>(
-                          <a key = {item.id} href='#' onClick={() => {handleBrowseMPItem(item)}}>
-                            {item.item}
-                          </a>
-                        ))}
-                   
-                      </div>
-                    ))}
-                    
-                  
-                  </div>
-                  
-                  </div>
-                
-              </li>
-              </div>
-              {/* <li><Link className='router-link' to='/'> Browse Marketplace</Link></li> */}
-              
-              <li className='navbar-hidden'>Stores</li>
-              <li className='navbar-hidden'>Deals</li>
-              <li className='navbar-hidden'>Book a courier</li>
-            </ul>
-          </div>
-          <div className='top-bar-right'>
-            <ul>
-              <li>List an item</li>
-            </ul>
-          </div>
-        </div>
-        </div>
-        </div>
-        
     );
 };
-export default TopBar
+export default MainHeader;

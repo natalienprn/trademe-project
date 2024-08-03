@@ -1,0 +1,156 @@
+.blue-strip{
+    background:#006EBD;
+    height: 16px;
+}
+
+.body-wrapper{
+    display: grid;
+    gap: 0 0;;
+    flex: 1;
+    grid-template-columns: .6fr 1.4fr 1fr;
+    grid-template-rows: max-content;
+    grid-template-areas: 'aside main-body main-body';
+}
+aside{
+    grid-area: aside;
+    background: #fff;
+
+}
+.aside-heading{
+    padding: 0px 8.71%;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #44413d;
+    line-height: 32px;
+    
+}
+aside ul{
+    list-style-type: none;
+    padding: 0px 8.71%;
+    
+}
+
+aside ul li{
+    padding: 16px 0;
+    white-space: nowrap;
+    line-height: 24px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.first-list{
+    margin-top: -10px;
+}
+.underline{
+    border-bottom: 1px solid #d7d5d2;
+}
+.noti{
+    display: inline-block;
+    margin-left: 8px;
+    padding: 0px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #d93a3f;
+    /* min-width: 24px; */
+    border-radius: 24px;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    
+}
+.aside-topic{
+    color:  #85807c;
+    font-size: 14px;
+    padding: 8px 0;
+    cursor: default;
+
+}
+.topic-member{
+    padding: 8px 0px 16px 0px;
+}
+/* MAIN */
+main{
+    grid-area: main-body;
+    background: #F6F5F4;
+}
+.main-body{
+    display: grid;
+    grid-column-gap:24px ;
+    grid-template:"header header"
+    "fav-content blank-ads" / auto 300px;
+    grid-template-rows:min-content;
+    padding-left: 24px;
+
+}
+.fav-heading{
+    grid-area: header;
+    height: fit-content;
+}
+.fav-wrapper{
+    grid-area: fav-content;
+}
+.blank-ads{
+    grid-area: blank-ads;
+}
+
+.link-ads{
+    font-size: 12px;
+    line-height: 48px;
+    color: #007acd;
+}
+.fav-title{
+    margin-bottom: 16px;
+    line-height: 32px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #44413d;
+}
+.fav-subtitle{
+    margin-bottom: 16px;
+    color: #65605d;
+    line-height: 24px;
+    font-size: 16px;
+
+}
+.fav-subtitle a{
+    color: #007acd;
+    text-decoration: none;
+}
+
+.fav-wrapper{
+    padding-top: 14px;
+}
+.fav-tab-area{
+    box-sizing: border-box;
+}
+.fav-tab{
+    
+    padding: 0px 24px 14px 24px;
+    color: #007acd;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 24px;
+    
+    height: 36px;
+    border-bottom: 1px solid #d7d5d2;
+
+}
+.fav-tab img{
+    position: relative;
+    bottom: 2px;
+    width: 26px;
+    vertical-align: middle;
+    margin-right: 3px;
+    
+}
+.current{
+    color: #44413d;
+    cursor: default;
+    border-bottom:3px solid #44413d ;
+}
+.first-tab{
+    padding-left: 0px;
+}
+

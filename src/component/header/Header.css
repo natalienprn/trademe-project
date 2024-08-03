@@ -3,6 +3,7 @@
   color: #85808C;
   height: 38px;
   padding-top: 8px;
+
 }
 
 .top-bar,
@@ -29,6 +30,9 @@
   padding-right: 16px;
 }
 
+.top-bar-left ul , .top-bar-right ul{
+  vertical-align: bottom;
+}
 input {
   width: calc(100% - 30px);
 
@@ -341,6 +345,12 @@ input {
 
 .navbar-right li {
   align-self: last baseline;
+
+}
+
+.navbar-right a{
+  text-decoration: none;
+  color: inherit;
 }
 
 .navbar-iconlist-profile-lg {

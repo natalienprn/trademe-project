@@ -1,11 +1,11 @@
 
 import './CartHeader.css'
-import CateItem from '../data/cateList';
+import CateItem from '../../data/cateList';
 import { useState } from 'react';
 
 import IconArrowDwBl from '/icon/arrow-down-bl.png'
 import { Link } from 'react-router-dom';
-import { useCartContext } from '../commonLogic/CartContext';
+import { useCartContext } from '../../commonLogic/CartContext';
 
 
 const CartHeader:React.FC = () => {

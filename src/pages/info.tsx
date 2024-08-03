@@ -4,7 +4,7 @@ import './info.css'
 import React from 'react';
 
 import Shoplogo from '/logo-shop.png';
-import TopBar from '../component/TopBar';
+import Header from '../component/header/Header';
 import FooterBlock from '../component/FooterBlock';
 import SlideShow from '../component/SlideShow';
 // import { CardData } from '../data/data';
@@ -45,7 +45,7 @@ const Info: React.FC= () => {
   return (
     <>
       <div className='container'>
-        <TopBar />
+        <Header />
         <div className='breadcrump'>
           <p>Home / Marketplace / Home & Living / Lounge, dining & hall / Lounge suites / Suites
             </p>

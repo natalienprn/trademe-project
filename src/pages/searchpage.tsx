@@ -5,7 +5,7 @@ import "./searchpage.css";
 import AllCateItem from "../data/allCategories";
 import { searchProducts } from "../commonLogic/SearchLogic";
 
-import TopBar from "../component/TopBar";
+import Header from "../component/header/Header";
 import FooterBlock from "../component/FooterBlock";
 import {
   Link,
@@ -50,7 +50,7 @@ function SearchPage() {
   return (
     <>
       <div className="container">
-        <TopBar />
+        <Header />
         <div className="breadcrump">
           <p>
             Home / Marketplace / Home & Living / Lounge, dining & hall / Lounge

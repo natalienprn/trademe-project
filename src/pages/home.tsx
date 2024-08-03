@@ -3,7 +3,7 @@ import "./info.css";
 import "./home.css";
 
 import cardData from "../data/data";
-import TopBar from "../component/TopBar";
+import Header from "../component/header/Header";
 import FooterBlock from "../component/FooterBlock";
 import CateItem from "../data/cateList";
 import Carousel from "../component/Carousel";
@@ -48,7 +48,7 @@ function Home() {
   return (
     <>
       <div className="container">
-        <TopBar />
+        <Header />
 
         <div className="banner-top">
           <div className="banner-top-message">
