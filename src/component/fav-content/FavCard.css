@@ -1,0 +1,93 @@
+.wrapper{
+    width: 100%;
+}
+.card{
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px #0000001a;
+    display: flex;
+    /* width: 100%; */
+    margin-bottom: 24px;
+    padding: 24px;
+    height: 72px;
+}
+.main{
+    width: 100%;
+    padding-right: 32px;
+    vertical-align: middle;
+    line-height: 24px;
+    
+}
+.title{
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    color: #007acd;
+    margin-top: 6px;
+
+}
+.title-cate{
+    margin-bottom: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    color: #007acd;
+
+}
+.cate{
+    color: #65605d;
+
+}
+.address{
+    font-size: 14px;
+    color:#007acd;
+}
+.option{
+    display: block;
+    padding-left: 24px;
+    border-left: 1px solid #e8e6e3;
+    max-width: 210px;
+    width: 100%;
+}
+.btn-opt{
+    width: fit-content;
+    color: #007acd;
+    font-size: 16px;
+}
+.opt-email{
+    line-height: 32px;
+    margin-bottom: 16px;
+}
+
+.topic{
+    margin-bottom: 24px;
+}
+
+.main-seller{
+    display: flex;
+    width: 100%;
+    padding-right: 32px;
+}
+.main-seller img{
+    width: 80px;
+    margin-top: -5px;
+    margin-left: -5px;
+}
+.shopinfo{
+    vertical-align: middle;
+    padding-left: 5px;
+    padding-top: 10px
+}
+.shopname{
+    font-size: 18px;
+    color: #007acd;
+    font-weight: bold;
+    line-height: 28px;
+}
+.view-list{
+    font-size: 16px;
+    color: #007acd;
+    line-height: 24px;
+    padding-top: 3px;
+}

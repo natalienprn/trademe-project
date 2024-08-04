@@ -1,16 +1,54 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './favourites.css'
 import UtilityBar from '../component/header/UtilityBar';
 import MainHeader from '../component/header/MainHeader';
 import FooterBlock from '../component/FooterBlock';
 
-import IconSearch from '/icon/search-bl.png';
+import IconSearchActive from '/icon/search-bl.png';
+import IconCateActive from '/icon/cate-black-fav.png';
+import IconSellerActive from '/icon/user-black-fav.png';
+
+import IconSearch from '/icon/search-blue-fav.png';
 import IconCate from '/icon/cate-bl.png';
 import IconSeller from '/icon/user-bl.png';
 
-const Favourites:React.FC = () => {
 
+
+import FavSearches from '../component/fav-content/Searches';
+import FavCategories from '../component/fav-content/Categoies';
+import FavSellers from '../component/fav-content/Sellers';
+
+
+
+const searches = [
+    {title:"bracelet", cate:"Jewellery & watches", type: "search"},
+    {title:"ps5", cate:"Consoles", type:"search"}
+]
+
+const categories = [
+    {cate:"Other gemstone",address:"Marketplace/Jewellery & watches / Bracelets & bangles / Gold / Other gemstone", type: "category"},
+    {cate:"Care Bears",address: "Marketplace / Toys & models / Bears / Care Bears", type:"category"}
+]
+
+const sellers = [
+    {shopname:"tigertoys (558)", img:"https://img.icons8.com/?size=100&id=20749&format=png&color=000000",type: "search"}
+   
+]
+
+const Favourites:React.FC = () => {
+    const location = useLocation();
+
+    const renderContent = () =>{
+        switch(location.pathname){
+            case '/favourites/categories':
+                return <FavCategories categories={categories} />;
+            case '/favourites/sellers':
+                return <FavSellers sellers={sellers}/>
+            default:
+                return <FavSearches searches={searches}/>;
+        }
+    }
 
     return (
         <div className='wrapper'>
@@ -58,19 +96,20 @@ const Favourites:React.FC = () => {
                     
                     <div className='fav-wrapper'>
                         <div className='fav-tab-area'>
-                            <Link to="/searches" className='fav-tab current first-tab' >
-                                <img src={IconSearch} />
+                            <Link to="/favourites/searches" className={`fav-tab first-tab ${location.pathname === '/favourites/searches' ? 'active' : ''}`} >
+                                <img src={location.pathname === '/favourites/searches' ? IconSearchActive : IconSearch} />
                                 Searches
                             </Link>
-                            <Link to="/categories" className='fav-tab'>
-                                <img src= {IconCate} />
+                            <Link to="/favourites/categories" className={`fav-tab ${location.pathname === '/favourites/categories' ? 'active' : ''}`}>
+                                <img src= {location.pathname === '/favourites/categories' ? IconCateActive : IconCate} />
                                 Categories
                             </Link>
-                            <Link to="/sellers" className='fav-tab'>
-                                <img src={IconSeller} />
+                            <Link to="/favourites/sellers" className={`fav-tab ${location.pathname === '/favourites/sellers' ? 'active' : ''}`}>
+                                <img src={location.pathname === '/favourites/sellers' ? IconSellerActive : IconSeller} />
                                 Sellers</Link>
                         </div>
                         <div className='content'>
+                            {renderContent()}
                         </div>
                     </div>
                     <div className='blank-ads'>

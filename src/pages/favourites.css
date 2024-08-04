@@ -81,6 +81,7 @@ main{
     "fav-content blank-ads" / auto 300px;
     grid-template-rows:min-content;
     padding-left: 24px;
+    padding-right: 8.71%;
 
 }
 .fav-heading{
@@ -135,6 +136,7 @@ main{
     
     height: 36px;
     border-bottom: 1px solid #d7d5d2;
+    transition: border .2s ease-in-out;
 
 }
 .fav-tab img{
@@ -145,12 +147,16 @@ main{
     margin-right: 3px;
     
 }
-.current{
+.fav-tab.active {
     color: #44413d;
     cursor: default;
     border-bottom:3px solid #44413d ;
 }
 .first-tab{
     padding-left: 0px;
+}
+
+.content{
+    margin-top: 48px;
 }
 

@@ -1,6 +1,6 @@
 import './App.css'
 
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
 import Info from './pages/info';
 import SearchPage from './pages/searchpage';
@@ -20,7 +20,11 @@ function App() {
           <Route path="/product/:id" element={<Info />} />
           <Route path="/results" element={<SearchPage />} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/favourites' element={<Favourites />} />
+          <Route path='/favourites' element={<Navigate to="/favourites/searches" />} />
+          <Route path='/favourites/categories'element={<Favourites />} />
+          <Route path='/favourites/sellers' element={<Favourites />} />
+          <Route path='/favourites/searches' element={<Favourites />} />
+          
         </Routes> 
       </CartProvider>
     </ProductProvider>
