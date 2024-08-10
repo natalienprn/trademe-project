@@ -16,17 +16,20 @@ import ProductCard from "../component/ProductCard";
 // import { extractParamsFromUrl } from "../commonLogic/FindParam";
 import { useProductContext } from "../commonLogic/ProductContext";
 import { Product } from "../data/dataGenerator";
+import { useFavourites } from "../commonLogic/FavouritesContext";
 
 function SearchPage() {
   const [searchParams] = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get('keyword') || '');
   const categoryId = parseInt(searchParams.get('category') || '1', 10); // Default to category 1 if not provided
   const { products } = useProductContext();
+  const {addSearch} = useFavourites();
 
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [categoryDescription, setCategoryDescription] = useState<string>("");
 
+  const [isFocused, setIsFocused] = useState(false);
   console.log("Received Keyword:", keyword);
   console.log("Received Category ID:", categoryId);
 
@@ -46,6 +49,16 @@ function SearchPage() {
       // setLoading(false);
     });
   }, [keyword, categoryId, products]);
+  const handleAddFavSearchs = () => {
+    const newSearch = {
+      title: keyword,
+      cate: currentCategory,
+      type: 'search'
+    }
+    addSearch(newSearch);
+    alert("Added to Favourit search!");
+
+  }
 
   return (
     <>
@@ -63,15 +76,33 @@ function SearchPage() {
             <div className="cate-topic">{currentCategory}</div>
             <div className="cate-description">{categoryDescription}</div>
             <div className="search-keyword-result-page">
-              <input
-                className="input"
+            <div className="input-wrapper">
+              <input 
+              className="input"
                 type="text"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder="Search by keyword"
-              ></input>
-              <button className="search-button" onClick={() => searchProducts(products, keyword, categoryId).then(setSearchResults)}>
-                Search</button>
+              />
+
+              {isFocused && (
+                <button 
+                className="btn-search-button" 
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => searchProducts(products, keyword, categoryId).then(setSearchResults)}>
+                Search
+                </button>
+              )}
+            </div>
+
+              <button className="btn-add-search"
+              onClick={handleAddFavSearchs}>
+                <img src="/icon/fav.png"/>
+                <span className="btn-text">Save this search</span>
+              </button>
+              
             </div>
           </div>
         </div>

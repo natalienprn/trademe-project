@@ -1,20 +1,21 @@
 import React from 'react'
 import './FavCard.css'
 import FavCard from './FavCard';
+import { useFavourites } from '../../commonLogic/FavouritesContext';
 
-interface FavSearchProp{
-    searches:{
-        title:string;
-        cate: string;
-        type: string
-    }[];
-}
-const FavSearches:React.FC<FavSearchProp> = ({searches}) =>{
-
+// interface FavSearchProp{
+//     searches:{
+//         title:string;
+//         cate: string;
+//         type: string
+//     }[];
+// }
+const FavSearches:React.FC = () =>{
+    const {searches} = useFavourites();
     return(
         <div className='wrapper'>
             <div className='topic'>
-                1 Favourite search
+                {searches.length} Favourite search
             </div>
             <div className='card-container'>
                 {searches.map((search, index) => (

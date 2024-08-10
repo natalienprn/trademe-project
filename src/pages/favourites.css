@@ -45,6 +45,11 @@ aside ul li{
 .underline{
     border-bottom: 1px solid #d7d5d2;
 }
+.aside-chose{
+    padding-left: 16px;
+    border-left:  5px solid #f9af2c ;
+    font-weight: bold;
+}
 .noti{
     display: inline-block;
     margin-left: 8px;

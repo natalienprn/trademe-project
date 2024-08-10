@@ -1,16 +1,19 @@
 import React from 'react'
 import './FavCard.css'
 import FavCard from './FavCard';
+import { useFavourites } from '../../commonLogic/FavouritesContext';
 
-interface FavCateProp{
-    categories: {cate: string; address: string; type:string}[];
-}
-const FavCategories:React.FC<FavCateProp> = ({categories}) =>{
+// interface FavCateProp{
+//     categories: {cate: string; address: string; type:string}[];
+// }
+const FavCategories:React.FC = () =>{
+    const {categories} = useFavourites();
+
 
     return(
         <div className='wrapper'>
             <div className='topic'>
-                1 Favourite category
+                {categories.length} Favourite category
             </div>
             <div className='card-container'>
                 {categories.map((category, index) =>(

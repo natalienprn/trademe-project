@@ -16,6 +16,7 @@ import IconShippingGrey from '/icon/shipping-icon.png';
 import IconLocation from '/icon/gps-icon.png';
 import IconBuyerProtection from '/icon/shield-icon.png';
 import IconStars from '/icon/five-stars-icon.png';
+import { useFavourites } from '../commonLogic/FavouritesContext';
 // import { Product } from '../data/dataGenerator';
 // import { CardData } from '../data/data';
 
@@ -26,6 +27,7 @@ const Info: React.FC= () => {
   const{products} = useProductContext();
   const selectedCard = products.find((product) => product.productId === parseInt(id ?? '', 10));
   const {addToCart} = useCartContext();
+  const {addSeller} = useFavourites();
 
   if(!selectedCard){
     return<div>Product not found</div>;
@@ -41,6 +43,16 @@ const Info: React.FC= () => {
     alert("Added to Cart!");
   }
 
+  const handleAddFavSellers = () => {
+    const newSeller = {
+      shopname: selectedCard.shopName,
+      img: '/logo-shop.png',
+      type: 'seller'
+    };
+    console.log("Adding seller", newSeller);
+    addSeller(newSeller);
+    alert("Added to Favourite seller!");
+  };
 
   return (
     <>
@@ -200,7 +212,7 @@ const Info: React.FC= () => {
                             </tbody>
                           </table>  
                         </div>
-                        <button className='btn-favourite-seller'>
+                        <button className='btn-favourite-seller' onClick={handleAddFavSellers}>
                           Add to Favourite Sellers
                         </button>
                         <div className='help-link'>

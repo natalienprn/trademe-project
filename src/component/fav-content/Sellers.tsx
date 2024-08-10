@@ -1,21 +1,22 @@
 import React from 'react'
 import './FavCard.css'
 import FavCard from './FavCard';
+import { useFavourites } from '../../commonLogic/FavouritesContext';
 
-interface FavSellerProp{
-    sellers:{
-        shopname: string;
-        img: string;
-        type:string;
-    }[];
-}
+// interface FavSellerProp{
+//     sellers:{
+//         shopname: string;
+//         img: string;
+//         type:string;
+//     }[];
+// }
 
-const FavSellers:React.FC<FavSellerProp> = ({sellers}) =>{
-
+const FavSellers:React.FC = () =>{
+    const { sellers } = useFavourites();
     return(
         <div className='wrapper'>
             <div className='topic'>
-                1 Favourite seller
+                {sellers.length} Favourite seller
             </div>
             <div className='card-container'>
                 {sellers.map((seller, index)=>(

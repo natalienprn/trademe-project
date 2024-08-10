@@ -9,13 +9,15 @@ import { ProductProvider } from './commonLogic/ProductContext';
 import Cart from './pages/cart';
 import { CartProvider } from './commonLogic/CartContext';
 import Favourites from './pages/favourites';
+import { FavouritesProvider } from './commonLogic/FavouritesContext';
 
 function App() {
 
   return (
     <ProductProvider>
       <CartProvider>
-        <Routes>
+        <FavouritesProvider>
+          <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path="/product/:id" element={<Info />} />
           <Route path="/results" element={<SearchPage />} />
@@ -26,6 +28,8 @@ function App() {
           <Route path='/favourites/searches' element={<Favourites />} />
           
         </Routes> 
+        </FavouritesProvider>
+        
       </CartProvider>
     </ProductProvider>
   )

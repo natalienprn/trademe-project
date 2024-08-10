@@ -18,35 +18,26 @@ import IconSeller from '/icon/user-bl.png';
 import FavSearches from '../component/fav-content/Searches';
 import FavCategories from '../component/fav-content/Categoies';
 import FavSellers from '../component/fav-content/Sellers';
+import { useFavourites } from '../commonLogic/FavouritesContext';
 
 
 
-const searches = [
-    {title:"bracelet", cate:"Jewellery & watches", type: "search"},
-    {title:"ps5", cate:"Consoles", type:"search"}
-]
 
-const categories = [
-    {cate:"Other gemstone",address:"Marketplace/Jewellery & watches / Bracelets & bangles / Gold / Other gemstone", type: "category"},
-    {cate:"Care Bears",address: "Marketplace / Toys & models / Bears / Care Bears", type:"category"}
-]
-
-const sellers = [
-    {shopname:"tigertoys (558)", img:"https://img.icons8.com/?size=100&id=20749&format=png&color=000000",type: "search"}
-   
-]
 
 const Favourites:React.FC = () => {
     const location = useLocation();
+    const {sellers: FavouriteSellers} = useFavourites();
+    const {categories: FavouriteCategories} = useFavourites();
+    const {searches: FavouriteSearches} = useFavourites();
 
     const renderContent = () =>{
         switch(location.pathname){
             case '/favourites/categories':
-                return <FavCategories categories={categories} />;
+                return <FavCategories />;
             case '/favourites/sellers':
-                return <FavSellers sellers={sellers}/>
+                return <FavSellers />
             default:
-                return <FavSearches searches={searches}/>;
+                return <FavSearches />;
         }
     }
 
@@ -63,7 +54,12 @@ const Favourites:React.FC = () => {
                         <li className='underline first-list'>Account details</li>
                         <li className='underline'>Notifications <span className='noti'>14</span></li>
                         <li className='underline'>Watchlist (10)</li>
-                        <li className='underline aside-chose'>Favourites (1)</li>
+                        <li className='underline'>
+                            <div className='aside-chose'>
+                              Favourites ({ FavouriteSellers.length + FavouriteCategories.length + FavouriteSearches.length})  
+                            </div>
+                            
+                        </li>
                         <li className='aside-topic'>Buying</li>
                         <li className='topic-member'>Won </li>
                         <li className='topic-member'>Lost (43)</li>

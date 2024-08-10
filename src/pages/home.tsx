@@ -44,6 +44,11 @@ function Home() {
   const handleSearch = () => {
     navigate(`/results?keyword=${keyword}&category=${category}`);
   };
+  const handleCateItem = (item: CateItem) => {
+    const keywordC = '';
+    const categoryC = item.id;
+    navigate(`/results?keyword=${keywordC}&category=${categoryC}`);
+  }
 
   return (
     <>
@@ -125,7 +130,7 @@ function Home() {
           <div className="cate-list">
             <ul>
               {CateItem.slice(1).map((item) => (
-                <li key={item.id}>{item.item}</li>
+                <li key={item.id} ><a onClick={() => handleCateItem(item)}>{item.item}</a></li>
               ))}
             </ul>
           </div>

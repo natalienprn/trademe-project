@@ -113,6 +113,7 @@
     border-radius: 3px;
     padding-left: 16px;
     padding-right: 32px;
+    cursor: pointer;
 }
 .search-block button{
     width: 195px;
@@ -124,7 +125,11 @@
     color: white;
     border: none;
     background-color: #007ACD;
+    cursor: pointer;
     
+}
+.search-block button:hover{
+    background: #279BE9;
 }
 .search-mp a{
     text-decoration: none;
@@ -208,9 +213,16 @@
     /* flex: 1 0 calc(33.33% - 20px); */
     padding: 12px 0;
     font-weight: 500;
+    
     /* break-inside: avoid; */
 
 
+}
+.cate-list ul li a{
+cursor: pointer;
+}
+.cate-list ul li a:hover{
+    text-decoration: underline;
 }
 .deals-section{
     padding-left: 24px;
