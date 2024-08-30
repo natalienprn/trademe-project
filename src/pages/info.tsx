@@ -41,6 +41,7 @@ const Info: React.FC= () => {
     alert("Added to Cart!");
   }
 
+  console.log(selectedCard.shippingPrice);
 
   return (
     <>

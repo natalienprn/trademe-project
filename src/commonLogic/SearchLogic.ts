@@ -1,5 +1,6 @@
 
-import { Product } from "../data/dataGenerator";
+// import { Product } from "../data/dataGenerator";
+import { Product } from "./ProductContext";
 
 export function searchProducts(
   products: Product[],
@@ -12,7 +13,7 @@ export function searchProducts(
     const productName = product.productName || '';
     
 
-    console.log(`Filtering product: ${productName},Keyword Match: ${keyword}, Category Match: ${category}`);
+    // console.log(`Filtering product: ${productName},Keyword Match: ${keyword}, Category Match: ${category}`);
 
     return (
       productName.toLowerCase().includes(searchKeyword.toLowerCase()) &&

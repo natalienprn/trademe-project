@@ -15,7 +15,8 @@ import {
 import ProductCard from "../component/ProductCard";
 // import { extractParamsFromUrl } from "../commonLogic/FindParam";
 import { useProductContext } from "../commonLogic/ProductContext";
-import { Product } from "../data/dataGenerator";
+import { Product } from "../commonLogic/ProductContext";
+// import { Product } from "../data/dataGenerator";
 
 function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -27,8 +28,8 @@ function SearchPage() {
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [categoryDescription, setCategoryDescription] = useState<string>("");
 
-  console.log("Received Keyword:", keyword);
-  console.log("Received Category ID:", categoryId);
+  // console.log("Received Keyword:", keyword);
+  // console.log("Received Category ID:", categoryId);
 
   useEffect(() => {
     const category = AllCateItem.find((category) => category.id === categoryId);
