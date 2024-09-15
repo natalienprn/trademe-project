@@ -9,7 +9,7 @@
     flex: 1;
     grid-template-columns: .6fr 1.4fr 1fr;
     grid-template-rows: max-content;
-    grid-template-areas: 'aside main-body main-body';
+    grid-template-areas: 'aside main-body main-body', 'aside main-body';
 }
 aside{
     grid-area: aside;
