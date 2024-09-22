@@ -18,29 +18,6 @@ function Home() {
   const navigate = useNavigate();
   const [category, setCategory] = useState("");
 
-
-  // for recommend products to show
-  // const [products, setProducts] = useState<CardData[]>([]);
-
-  // function handleSearch(event: FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   if (selectedCategory) {
-  //     navigate({
-  //       pathname: `/result/${selectedCategory}`,
-  //       search: createSearchParams({ keyword }).toString(),
-  //     });
-  //     // searchProducts(keyword, selectedCategory);
-  //     // createSearchParams({ keyword, category: String(selectedCategory) }).toString();
-
-  //     console.log("it is push this id: ", selectedCategory);
-  //     console.log("it is push this kw: ", keyword);
-  //   } else {
-  //     return(<>
-  //     Category not found
-  //     </>);
-  //     // navigate(`/result/${searchParams}`);
-  //   }
-  // }
   const handleSearch = () => {
     navigate(`/results?keyword=${keyword}&category=${category}`);
   };
@@ -49,7 +26,7 @@ function Home() {
     const categoryC = item.id;
     navigate(`/results?keyword=${keywordC}&category=${categoryC}`);
   }
-
+ 
   return (
     <>
       <div className="container">

@@ -1,16 +1,18 @@
 import React from 'react';
 import './ProductCard.css';
+import { ProductCardType } from '../type/ProductCard';
 
 
 import IconShipping from '/icon/shipping-96.png';
-import { Product } from '../data/dataGenerator';
+
 
 interface ProductCardProps{
     // data: CardData;
-    data: Product;
+    data: ProductCardType;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({data})=>{
+  const closeDate = new Date(data.closeDate);
     return(
         // <Link to={data.link}>
           <div className='product-card-container'>
@@ -24,7 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({data})=>{
                     {data.city}
                   </div>
                   <div className='date'>
-                    Closes: {data.closeDate.toDateString()}
+                    Closes: {closeDate.toDateString()}
                   </div>
                 </div>
                 <div className='prod-name'>
@@ -33,20 +35,20 @@ const ProductCard: React.FC<ProductCardProps> = ({data})=>{
                 <div className='prod-description'>
                   {data.description}
                 </div>
-                {data.shippingInfo && (
+                {data.sellType&& (
                   <div className='prod-ship-info'>
                     <img src={IconShipping}/>
-                  {data.shippingInfo}
+                  {data.sellType}
                 </div>
                 )}
                 
                 <div className='price-section'>
                   <div className='promotion-status'>
-                    {data.proStatus}
+                    {data.shippingDeals}
                   </div>
                   <div className='price'>
-                    <span className='old-price'>{data.oldPrice}</span>
-                    {data.currentPrice}
+                    <span className='old-price'>{data.originalPrice}</span>
+                    {data.salesPrice}
                   </div>
                 </div>
               </div>

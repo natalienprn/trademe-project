@@ -1,4 +1,3 @@
-
 import { Product } from "../data/dataGenerator";
 
 export function searchProducts(

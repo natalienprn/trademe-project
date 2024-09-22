@@ -1,14 +1,14 @@
 
 import './info.css'
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Shoplogo from '/logo-shop.png';
 import Header from '../component/header/Header';
 import FooterBlock from '../component/FooterBlock';
 import SlideShow from '../component/SlideShow';
 // import { CardData } from '../data/data';
-import { useProductContext } from '../commonLogic/ProductContext';
+// import { useProductContext } from '../commonLogic/ProductContext';
 import { useParams } from 'react-router-dom';
 import { useCartContext } from '../commonLogic/CartContext';
 
@@ -19,19 +19,23 @@ import IconStars from '/icon/five-stars-icon.png';
 import { useFavourites } from '../commonLogic/FavouritesContext';
 // import { Product } from '../data/dataGenerator';
 // import { CardData } from '../data/data';
-
-
+import { fetchProductById } from '../commonLogic/AirtableService';
+import { ProductData } from '../type/ProductData';
 
 const Info: React.FC= () => {
   const {id} = useParams<{id: string}>();
-  const{products} = useProductContext();
-  const selectedCard = products.find((product) => product.productId === parseInt(id ?? '', 10));
+  const numericId = Number(id);
+
+  // const selectedCard = products.find((product) => product.productId === parseInt(id ?? '', 10));
   const {addToCart} = useCartContext();
   const {addSeller} = useFavourites();
 
-  if(!selectedCard){
-    return<div>Product not found</div>;
-  }
+  const [productData, setProductData] = useState<ProductData | null>(null);
+
+
+  // if(!selectedCard){
+  //   return<div>Product not found</div>;
+  // }
   // const [count, setCount] = useState(0)
 
   const handleWatchlist = ()=> {
@@ -39,21 +43,48 @@ const Info: React.FC= () => {
   }
 
   const handleAddToCart = () =>{
-    addToCart(selectedCard);
+    // addToCart(productData);
     alert("Added to Cart!");
   }
 
   const handleAddFavSellers = () => {
     const newSeller = {
-      shopname: selectedCard.shopName,
+      shopname: productData?.shopName,
       img: '/logo-shop.png',
       type: 'seller'
     };
     console.log("Adding seller", newSeller);
-    addSeller(newSeller);
+    // addSeller(newSeller);
     alert("Added to Favourite seller!");
   };
+  // const handleFetchData = async () => {
+  //   if (numericId) {
+  //     const fetchedData = await fetchProductById(numericId);  // Pass the specificID to fetch filtered data
+  //     setProduct(fetchedData);
+  //   }
+  // };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (id) {  // Check if id is defined before making the request
+          const result = await fetchProductById(id);  // Call fetch only if id is valid
+          console.log("ID = ", id);
+          setProductData(result);
+        } else {
+          console.error("Product ID is undefined");
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
 
+    if (!isNaN(numericId)) {
+      fetchData();
+    }
+  }), [numericId];
+  if (!productData) {
+    return <p>Loading...</p>;
+  }
   return (
     <>
       <div className='container'>
@@ -64,38 +95,25 @@ const Info: React.FC= () => {
         </div>
         <div className='main-content'>
           <div className='product-info'>
-            <SlideShow images={selectedCard.productImg} />
+            {/* <SlideShow images={productData?.productImg} /> */}
+            <SlideShow images={productData?.productImg || []} />
+
             <div className='info-body'>
               <table>
               <tbody>
                 <tr>
                   <td>Details</td>
-                  <td>Condition:{selectedCard.condition}</td>
+                  <td>Condition:{productData?.condition}</td>
                 </tr>
                 <tr>
                   <td>Description</td>
                   <td>
-                   {/* {cardData[0].fullDescription} */}
-                   {/* {cardData[0].fullDescription.map((paragraph: { text: string; lineBreak: number }, index: number) => (
-                      <React.Fragment key={index}>
-                        <p>{paragraph.text}</p>
-                        {Array(paragraph.lineBreak).fill(<br />)}
-                      </React.Fragment>
-                    ))} */}
-                    {/* {cardData[0].fullDescription.map((paragraph: { text: string; lineBreak: number }, index: number) => (
-        <React.Fragment key={index}>
-          <p dangerouslySetInnerHTML={{ __html: paragraph.text.replace(/\n/g, '<br />') }}></p>
-          {[...Array(paragraph.lineBreak)].map((_, i) => <br key={i} />)}
-        </React.Fragment>
-      ))} */}
-      
+                   
+      {/* original full description */}
       {/* {selectedCard.fullDescription.map((paragraph, index) =>(
-        <p key={index}>{paragraph}</p>
-      ))} */}
-      {selectedCard.fullDescription.map((paragraph, index) =>(
         <p key={index} dangerouslySetInnerHTML={{__html: paragraph}}/>
-      ))}
-      
+      ))} */}
+      <p>{productData?.fullDescriptions}</p>
                    </td>
                 </tr>
                 <tr>
@@ -114,8 +132,8 @@ const Info: React.FC= () => {
               <td>${shippingprice.price}</td>
             </tr>
           ))} */}
-          {selectedCard.shippingPrice.map((shippingprice, index) =>(
-            
+          {/* {selectedCard.shippingPrice.map((shippingprice, index) =>( */}
+            {productData?.shippingTable.map((shippingprice, index) =>(
             <tr key={index}>
               <td>{shippingprice.destination}</td>
               <td>{shippingprice.price}</td>
@@ -188,7 +206,7 @@ const Info: React.FC= () => {
                           <img src={Shoplogo}/>  
                         </div>     
                         <div className='about-store-info'>
-                          <h3>furniturestore1</h3>
+                          <h3>{productData.shopName}</h3>
                           <span className='about-store-feedback'>
                           100% positive feedback(4)
                           </span>
@@ -203,7 +221,7 @@ const Info: React.FC= () => {
                             <tbody>
                             <tr>
                               <td>Location</td>
-                              <td>Manukau</td>
+                              <td>{productData.city}</td>
                             </tr>
                             <tr>
                               <td>Member since</td>
@@ -241,15 +259,15 @@ const Info: React.FC= () => {
             </div>
             
             <div className='product-name'>
-            {selectedCard.productName}
+            {productData?.productName}
             </div>
             <div className='shipping-info'>
-            Free Shipping to Auckland and Hamilton (Non-Rural)
+            Free Shipping to {productData.city}(Non-Rural)
             </div>
             <div className='closing-time'>
               <div className='closing-info'>
                  <div className='closing-date'>
-                  Closes: Thu 21st Sep, 7:15pm
+                  Closes: Thu 21st Sep , 7:15pm
                   </div>
                   <div className='closing-duration'>
                   4 days, 22 hours, 7 minutes
@@ -266,13 +284,14 @@ const Info: React.FC= () => {
                 <p>Buy Now</p>
                 <div className='product-price'>
                   <span className='current-price'>
-                    {selectedCard.currentPrice}
+                    ${Number(productData?.salesPrice).toFixed(2)}
+                    {/* {Number(record.fields.salesPrice).toFixed(2)} */}
                   </span>
                   each
                   
                 </div>
                 <div className='original-price'>
-                    {selectedCard.oldPrice}
+                    ${productData?.originalPrice}
                   </div>
                 <div className='afterpay'>
                 <p>Or four interest-free payments of <strong>$974.75</strong> (plus shipping) with 
@@ -291,7 +310,7 @@ const Info: React.FC= () => {
                   Shipping from $115.00</div>
                 <div className='shipping-deal'> 
                 <img src={IconLocation}/>
-                Pick up available, Auckland City, Auckland</div>
+                Pick up available, {productData.city}</div>
               </div>
             </div>
             <div className='buyer-protection'>
@@ -311,9 +330,9 @@ const Info: React.FC= () => {
                 <img src={Shoplogo}/>
               </div>
               <div className='shop-summary'>
-                <span style={{color:'#007ACD'}}>{selectedCard.shopName} (471 <img src={IconStars}/>)</span><br/>
+                <span style={{color:'#007ACD'}}>{productData?.shopName} (471 <img src={IconStars}/>)</span><br/>
                 <span style={{fontWeight: 'bold'}}><span style={{fontSize: '18px'}}>98.8%</span> positive feedback</span><br/>
-                <span style={{fontSize: '14px', color:'#65605D'}}>Seller located in Auckland City, Auckland</span>
+                <span style={{fontSize: '14px', color:'#65605D'}}>Seller located in {productData.city}</span>
 
 
               </div>

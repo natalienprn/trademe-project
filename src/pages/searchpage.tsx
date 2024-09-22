@@ -14,24 +14,34 @@ import {
 } from "react-router-dom";
 import ProductCard from "../component/ProductCard";
 // import { extractParamsFromUrl } from "../commonLogic/FindParam";
-import { useProductContext } from "../commonLogic/ProductContext";
-import { Product } from "../data/dataGenerator";
+import { useProductContext} from "../commonLogic/ProductContext";
+// import { Product } from "../data/dataGenerator";
 import { useFavourites } from "../commonLogic/FavouritesContext";
+import {fetchFilteredProducts } from "../commonLogic/AirtableService";
+
+import {  useNavigate} from "react-router-dom";
 
 function SearchPage() {
   const [searchParams] = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get('keyword') || '');
   const categoryId = parseInt(searchParams.get('category') || '1', 10); // Default to category 1 if not provided
-  const { products } = useProductContext();
+  // const { products } = useProductContext();
   const {addSearch} = useFavourites();
+  const [products, setProducts] = useState<any[]>([]);
 
-  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const navigate = useNavigate();
+  // const [searchResults, setSearchResults] = useState<ProductCardType[]>([]);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [categoryDescription, setCategoryDescription] = useState<string>("");
 
   const [isFocused, setIsFocused] = useState(false);
+  const [loading, setLoading] = useState(true);  
+
+  // const [product, setProduct] = useState<ProductCard[]>([]);
+
   console.log("Received Keyword:", keyword);
   console.log("Received Category ID:", categoryId);
+
 
   useEffect(() => {
     const category = AllCateItem.find((category) => category.id === categoryId);
@@ -43,12 +53,28 @@ function SearchPage() {
 
     const searchKeyword = keyword || '';
     console.log ("searching with keyword:", searchKeyword, "and Category ID: ", categoryId);
-    searchProducts(products,searchKeyword, categoryId).then((results) => {
-      setSearchResults(results);
-      console.log("searchb result: ", results);
-      // setLoading(false);
-    });
-  }, [keyword, categoryId, products]);
+    // searchProducts(searchKeyword, categoryId).then((results) => {
+    //   setSearchResults(results);
+    //   console.log("searchb result: ", results);
+    //   // setLoading(false);
+    // });
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        // Fetch the products using the keyword and category from URL
+        const result = await fetchFilteredProducts(keyword, categoryId.toString());
+        setProducts(result.products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }finally {
+        setLoading(false);  // Set loading to false after fetching
+      }
+    };
+
+    fetchProducts(); 
+
+
+  }, [keyword, categoryId]);
   const handleAddFavSearchs = () => {
     const newSearch = {
       title: keyword,
@@ -59,6 +85,12 @@ function SearchPage() {
     alert("Added to Favourit search!");
 
   }
+  const handleSearch = () => {
+    // Navigate to the updated URL with the new keyword and category
+    navigate(`/results?keyword=${keyword}&category=${categoryId}`);
+  };
+
+  
 
   return (
     <>
@@ -72,7 +104,7 @@ function SearchPage() {
         </div>
         <div className="search-header-wrapper">
           <div className="search-header">
-            {/* <div className='cate-topic'>{currentCategory.item}</div> */}
+           
             <div className="cate-topic">{currentCategory}</div>
             <div className="cate-description">{categoryDescription}</div>
             <div className="search-keyword-result-page">
@@ -91,7 +123,8 @@ function SearchPage() {
                 <button 
                 className="btn-search-button" 
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => searchProducts(products, keyword, categoryId).then(setSearchResults)}>
+                // onClick={() => searchProducts(products, keyword, categoryId).then(setSearchResults)}>
+                onClick={handleSearch}>
                 Search
                 </button>
               )}
@@ -107,12 +140,16 @@ function SearchPage() {
           </div>
         </div>
         <div className="result-wrapper">
+           {/* Loading Message */}
+          {loading ? (
+            <p>Loading products...</p>  
+          ) : (
           <div className="result-section">
             Showing results
             <div className="result-display">
-              {searchResults.length > 0 ? (
-                searchResults.map((product, index) => (
-                // <DealCard key={index} data={card}/>
+              {products.length > 0 ? (
+                products.map((product, index) => (
+               
                 <Link to={`/product/${product.productId}`} key={index}>
                   <ProductCard data={product} />
                 </Link>
@@ -121,7 +158,7 @@ function SearchPage() {
               <p>no product found</p>
             )}
             </div>
-          </div>
+          </div>)}
         </div>
         <FooterBlock />
       </div>
