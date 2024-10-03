@@ -1,5 +1,5 @@
 export interface ProductData {
-    productId: Number;
+    productId: string;
     productName: string;
     city: string;
     closeDate: Date;
@@ -14,7 +14,7 @@ export interface ProductData {
     productImg: string[];
     shippingTable: ShippingTable[];
   }
-  interface ShippingTable{
+ export interface ShippingTable{
     destination: string;
     price: string;
   }

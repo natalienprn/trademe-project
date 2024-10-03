@@ -43,7 +43,7 @@ const Info: React.FC= () => {
   }
 
   const handleAddToCart = () =>{
-    // addToCart(productData);
+    addToCart(productData?.productId || "0", 1, "0");
     alert("Added to Cart!");
   }
 

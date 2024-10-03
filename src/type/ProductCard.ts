@@ -1,5 +1,5 @@
 export interface ProductCardType {
-    productId: Number;
+    productId: string;
     productName: string;
     description: string;
     city: string;

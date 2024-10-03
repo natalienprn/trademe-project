@@ -8,6 +8,8 @@ import Carousel from "../component/Carousel";
 import cardData from "../data/data";
 import CartHeader from "../component/cart-header/CartHeader";
 import CartTopBar from "../component/cart-header/CartTopBar";
+import { fetchShippingById } from "../commonLogic/AirtableService";
+
 const Cart: React.FC = () => {
   const { cartItems, updateQuantity } = useCartContext();
   const [selectedShipping, setSelectedShipping] = useState<{
@@ -15,16 +17,33 @@ const Cart: React.FC = () => {
   }>({});
 
   console.log(cartItems);
-
+  const [cartDetails, setCartDetails] = React.useState<
+    {
+      productName: string;
+      destination: string;
+      productPrice: number;
+      price: number;
+      totalPrice: number;
+    }[]
+  >([]);
   const [totalShipping, setTotalShipping] = useState<number>(0);
 
+  // const handleShipping = (
+  //   event: React.ChangeEvent<HTMLSelectElement>,
+  //   itemId: number
+  // ) => {
+  //   setSelectedShipping({
+  //     ...selectedShipping,
+  //     [itemId]: Number(event.target.value),
+  //   });
+  // };
   const handleShipping = (
     event: React.ChangeEvent<HTMLSelectElement>,
-    itemId: number
+    selectedPrice: number
   ) => {
     setSelectedShipping({
       ...selectedShipping,
-      [itemId]: Number(event.target.value),
+      [selectedPrice]: Number(event.target.value),
     });
   };
   const handleInput = (event: React.FormEvent<HTMLInputElement>) => {
@@ -39,7 +58,7 @@ const Cart: React.FC = () => {
 
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => {
-      return total + Number(item.currentPrice) * item.quantity;
+      return total + Number(item.salesPrice) * item.quantity;
     }, 0);
   };
 
@@ -107,13 +126,14 @@ const Cart: React.FC = () => {
                                 )
                               }
                             />
-                            x ${item.currentPrice}
+                            x ${item.salesPrice.toFixed(2)}
                           </td>
                           <td
                             className="item-info-cell right-cell item-price"
                             colSpan={1}
                           >
-                            ${Number(item.currentPrice) * item.quantity}
+                            $
+                            {Number(item.salesPrice.toFixed(2)) * item.quantity}
                           </td>
                         </tr>
                         <tr className="item-info-row">
@@ -125,15 +145,23 @@ const Cart: React.FC = () => {
                             <select
                               id="shipping"
                               onChange={(e) =>
-                                handleShipping(e, item.productId)
+                                handleShipping(e, Number(item.productId))
                               }
                             >
                               <option>Select shipping</option>
 
-                              {item.shippingPrice.map((shippingprice) => (
-                                <option value={shippingprice.price}>
-                                  {shippingprice.price} -{" "}
-                                  {shippingprice.destination}
+                              {/* {item.shipping.map((shipping) => (
+                                <option value={shipping.shippingId}>
+                                  {shipping.shippingPrice} -{" "}
+                                  {shipping.destination}
+                                </option>
+                              ))} */}
+                              {item.shipping.map((shipping) => (
+                                <option
+                                  value={shipping.price}
+                                  key={shipping.shippingId}
+                                >
+                                  $ {shipping.price} - {shipping.destination}
                                 </option>
                               ))}
                             </select>
@@ -142,7 +170,8 @@ const Cart: React.FC = () => {
                             className="item-info-cell right-cell item-price"
                             colSpan={1}
                           >
-                            ${selectedShipping[item.productId] || 0}
+                            {/* ${selectedShipping[item.productId] || 0} */}
+                            ${selectedShipping[item.productId]|| 0}
                           </td>
                         </tr>
                       </tbody>
@@ -157,7 +186,7 @@ const Cart: React.FC = () => {
                   <div className="total-heading">
                     <div className="total-cell-left">Item subtotal</div>
                     <div className="total-cell-right">
-                      ${calculateTotalPrice()}
+                      ${calculateTotalPrice().toFixed(2)}
                     </div>
                   </div>
                   <div className="total-heading">
@@ -179,7 +208,7 @@ const Cart: React.FC = () => {
                         please choose shipping for all listings
                       </div>
                       <div className="total-price">
-                        ${calculateTotalPrice() + totalShipping}
+                        ${(calculateTotalPrice() + totalShipping).toFixed(2)}
                       </div>
                     </div>
                   </div>
