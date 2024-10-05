@@ -2,6 +2,7 @@ import { ProductData, ShippingTable } from '../type/ProductData';
 import { ProductCardType } from '../type/ProductCard';
 import airtableAxios from './AirtableAxios';
 import { CartDataType, CartHolder } from '../type/CartType';
+import { FavShops } from '../type/FavType';
 
 export const fetchProductById = async (productId: string): Promise<ProductData> => {
   try {
@@ -267,6 +268,25 @@ export const fetchCartInfo = async (cartHolder: CartHolder[]): Promise<CartDataT
     return cartData;
   } catch (error) {
     console.error('Error fetching product or shipping data:', error);
+    throw error;
+  }
+};
+
+
+// Add Favorite Shop
+export const addFavShop = async (favShops: FavShops[]) => {
+  try {
+    const response = await airtableAxios.post('/favShops', {
+      fields: {
+        favId,
+        userId,
+        shopId
+        
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding favorite shop:', error);
     throw error;
   }
 };
