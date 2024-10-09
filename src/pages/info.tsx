@@ -21,6 +21,7 @@ import { useFavourites } from '../commonLogic/FavouritesContext';
 // import { CardData } from '../data/data';
 import { fetchProductById } from '../commonLogic/AirtableService';
 import { ProductData } from '../type/ProductData';
+import { FavSeller } from '../type/FavType';
 
 const Info: React.FC= () => {
   const {id} = useParams<{id: string}>();
@@ -47,16 +48,32 @@ const Info: React.FC= () => {
     alert("Added to Cart!");
   }
 
-  const handleAddFavSellers = () => {
-    const newSeller = {
-      shopname: productData?.shopName,
-      img: '/logo-shop.png',
-      type: 'seller'
+  // const handleAddFavSellers = () => {
+  //   const newSeller = {
+  //     shopname: productData?.shopName,
+  //     img: '/logo-shop.png',
+  //     type: 'seller'
+  //   };
+  //   console.log("Adding seller", newSeller);
+  //   // addSeller(newSeller);
+  //   alert("Added to Favourite seller!");
+  // };
+  const handleAddFavSellers = async () =>{
+    const newSeller: FavSeller = {
+     
+      userId: 'recDOf2cYptH3Qc1G',
+      shopId: String(productData?.shopId)
+      // shopId: productData?.shopId
     };
-    console.log("Adding seller", newSeller);
-    // addSeller(newSeller);
-    alert("Added to Favourite seller!");
-  };
+
+    try{
+      await addSeller(newSeller);
+      alert("Added to Favourite seller!");
+
+    }catch(error){
+      console.error("Error adding Fav at handleAddFav: ", error);
+    }
+  }
   // const handleFetchData = async () => {
   //   if (numericId) {
   //     const fetchedData = await fetchProductById(numericId);  // Pass the specificID to fetch filtered data

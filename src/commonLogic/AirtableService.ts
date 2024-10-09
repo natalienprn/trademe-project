@@ -1,50 +1,55 @@
-import { ProductData, ShippingTable } from '../type/ProductData';
-import { ProductCardType } from '../type/ProductCard';
-import airtableAxios from './AirtableAxios';
-import { CartDataType, CartHolder } from '../type/CartType';
-import { FavShops } from '../type/FavType';
+import { ProductData, ShippingTable } from "../type/ProductData";
+import { ProductCardType } from "../type/ProductCard";
+import airtableAxios from "./AirtableAxios";
+import { CartDataType, CartHolder } from "../type/CartType";
+import { FavSeller, FavSearch, FavCate, Seller, Search } from "../type/FavType";
+import FavSearches from "../component/fav-content/Searches";
+import { fa } from "@faker-js/faker";
 
-export const fetchProductById = async (productId: string): Promise<ProductData> => {
+export const fetchProductById = async (
+  productId: string
+): Promise<ProductData> => {
   try {
-    const responseProduct = await airtableAxios.get('/products', {
+    const responseProduct = await airtableAxios.get("/products", {
       params: {
-        filterByFormula: `{productId} = ${productId}`,  // No quotes around the productId (since it's numeric)
+        filterByFormula: `{productId} = ${productId}`, // No quotes around the productId (since it's numeric)
         fields: [
-          'productId',
-          'productName',
-          'city',
-          'closeDate',
-          'originalPrice',
-          'salesPrice',
-          'condition',
-          'variance',
-          'brand',
-          'shopName',
-          'fullDescriptions',
-          'shippingDeals',
-          'imgUrl'
-        ]
-      }
+          "productId",
+          "productName",
+          "city",
+          "closeDate",
+          "originalPrice",
+          "salesPrice",
+          "condition",
+          "variance",
+          "brand",
+          "shopName",
+          "fullDescriptions",
+          "shippingDeals",
+          "imgUrl",
+          "shopId",
+        ],
+      },
     });
 
     const productRecords = responseProduct.data.records;
     if (productRecords.length === 0) {
       throw new Error(`No product found with productId: ${productId}`);
     }
-    const productData = productRecords[0];  // Access the first matching record
+    const productData = productRecords[0]; // Access the first matching record
 
     // Fetch shipping data based on productId
-    const responseShipping = await airtableAxios.get('/shipping', {
+    const responseShipping = await airtableAxios.get("/shipping", {
       params: {
-        filterByFormula: `{productId} = ${productId}`,  // Also numeric in the shipping table
-        fields: ['destination', 'shippingPrice']
-      }
+        filterByFormula: `{productId} = ${productId}`, // Also numeric in the shipping table
+        fields: ["destination", "shippingPrice"],
+      },
     });
 
     const shippingRecords = responseShipping.data.records;
     const shippingTable = shippingRecords.map((shipping: any) => ({
       destination: shipping.fields.destination,
-      price: shipping.fields.shippingPrice
+      price: shipping.fields.shippingPrice,
     }));
 
     // Return the data according to ProductData interface
@@ -61,33 +66,36 @@ export const fetchProductById = async (productId: string): Promise<ProductData> 
       shopName: productData.fields.shopName,
       fullDescriptions: productData.fields.fullDescriptions,
       shippingDeals: productData.fields.shippingDeals,
-      productImg: productData.fields.imgUrl,  
-      shippingTable  
+      productImg: productData.fields.imgUrl,
+      shopId: productData.fields.shopId,
+      shippingTable,
     };
   } catch (error) {
-    console.error('Error fetching product or shipping data:', error);
+    console.error("Error fetching product or shipping data:", error);
     throw error;
   }
 };
 
-export const fetchProductByCategory = async (categoryId: Number): Promise<ProductCardType> =>{
-  try{
-    const responseResultByCate = await airtableAxios.get('/products', {
+export const fetchProductByCategory = async (
+  categoryId: Number
+): Promise<ProductCardType> => {
+  try {
+    const responseResultByCate = await airtableAxios.get("/products", {
       params: {
-        filterByFormula:  ` {categoryID} = ${categoryId} `,
+        filterByFormula: ` {categoryID} = ${categoryId} `,
         fields: [
-          'productId',
-          'productName',
-          'description',
-          'city',
-          'closeDate',
-          'shippingDeals',
-          'sellType',
-          'originalPrice',
-          'salesPrice',
-          'imgUrl'
-        ]
-      }
+          "productId",
+          "productName",
+          "description",
+          "city",
+          "closeDate",
+          "shippingDeals",
+          "sellType",
+          "originalPrice",
+          "salesPrice",
+          "imgUrl",
+        ],
+      },
     });
     const resultByCateRecord = responseResultByCate.data.records;
     const resultByCate = resultByCateRecord.map((record: any) => ({
@@ -100,28 +108,24 @@ export const fetchProductByCategory = async (categoryId: Number): Promise<Produc
       sellType: record.fields.sellType,
       originalPrice: record.fields.originalPrice,
       salesPrice: record.fields.salesPrice,
-      productImg: record.fields.imgUrl
+      productImg: record.fields.imgUrl,
     }));
     return resultByCate;
-  }
-  catch (error) {
-    console.error('Error fetching cardProduct:', error);
+  } catch (error) {
+    console.error("Error fetching cardProduct:", error);
     throw error;
   }
-
-
 };
 
-// result from search 
+// result from search
 export const fetchFilteredProducts = async (
-  searchQuery: string, 
-  categoryId?: string, 
-  offset: string = '', 
+  searchQuery: string,
+  categoryId?: string,
+  offset: string = "",
   pageSize: number = 20
-): Promise<{ products: ProductData[], nextOffset?: string }> => {
+): Promise<{ products: ProductData[]; nextOffset?: string }> => {
   try {
-  
-    const finalCategoryId = categoryId || '1';
+    const finalCategoryId = categoryId || "1";
     console.log("fetching result");
     const filterByFormula = `
       AND(
@@ -132,24 +136,24 @@ export const fetchFilteredProducts = async (
       )
     `;
 
-    const response = await airtableAxios.get('/products/', {
+    const response = await airtableAxios.get("/products/", {
       params: {
         filterByFormula,
         fields: [
-          'productId',
-          'productName',
-          'description',
-          'city',
-          'closeDate',
-          'shippingDeals',
-          'sellType',
-          'originalPrice',
-          'salesPrice',
-          'imgUrl'
+          "productId",
+          "productName",
+          "description",
+          "city",
+          "closeDate",
+          "shippingDeals",
+          "sellType",
+          "originalPrice",
+          "salesPrice",
+          "imgUrl",
         ],
         pageSize,
-        offset
-      }
+        offset,
+      },
     });
 
     const productResultRecords = response.data.records.map((record: any) => ({
@@ -163,91 +167,92 @@ export const fetchFilteredProducts = async (
       originalPrice: record.fields.originalPrice,
       salesPrice: record.fields.salesPrice,
       productImg: record.fields.imgUrl || [],
-  
     }));
 
     return {
       products: productResultRecords,
-      nextOffset: response.data.offset
+      nextOffset: response.data.offset,
     };
   } catch (error) {
-    console.error('Error fetching filtered products:', error);
-    throw new Error('Failed to fetch filtered products');
+    console.error("Error fetching filtered products:", error);
+    throw new Error("Failed to fetch filtered products");
   }
 };
 
-
 // fetch shipping info by selected productId
-export const fetchShippingById = async (productId: string): Promise<ShippingTable> => {
+export const fetchShippingById = async (
+  productId: string
+): Promise<ShippingTable> => {
   try {
-   
     // Fetch shipping data based on productId
-    const responseShipping = await airtableAxios.get('/shipping', {
+    const responseShipping = await airtableAxios.get("/shipping", {
       params: {
-        filterByFormula: `{productId} = ${productId}`,  // Also numeric in the shipping table
-        fields: ['destination', 'shippingPrice']
-      }
+        filterByFormula: `{productId} = ${productId}`, // Also numeric in the shipping table
+        fields: ["destination", "shippingPrice"],
+      },
     });
 
     const shippingRecords = responseShipping.data.records;
     const shippingTable = shippingRecords.map((shipping: any) => ({
       destination: shipping.fields.destination,
-      price: shipping.fields.shippingPrice
+      price: shipping.fields.shippingPrice,
     }));
     return {
       destination: shippingTable.destination,
-      price: shippingTable.price
+      price: shippingTable.price,
     };
   } catch (error) {
-    console.error('Error fetching product or shipping data:', error);
+    console.error("Error fetching product or shipping data:", error);
     throw error;
   }
 };
 
-// fetch cartInfo 
-export const fetchCartInfo = async (cartHolder: CartHolder[]): Promise<CartDataType[]> => {
+// fetch cartInfo
+export const fetchCartInfo = async (
+  cartHolder: CartHolder[]
+): Promise<CartDataType[]> => {
   try {
     // Map through cartHolder to fetch details for each productId
     const cartDataPromises = cartHolder.map(async (cartItem) => {
-      const responseProduct = await airtableAxios.get('/products', {
+      const responseProduct = await airtableAxios.get("/products", {
         params: {
           filterByFormula: `{productId} = ${cartItem.productId}`,
           fields: [
-            'productId',
-            'productName',      
-            'salesPrice',
-            'shippingId',
-            'shopName',
-            'imgUrl'
-          ]
-        }
+            "productId",
+            "productName",
+            "salesPrice",
+            "shippingId",
+            "shopName",
+            "imgUrl",
+          ],
+        },
       });
 
       const productRecords = responseProduct.data.records;
       if (productRecords.length === 0) {
-        throw new Error(`No product found with productId: ${cartItem.productId}`);
+        throw new Error(
+          `No product found with productId: ${cartItem.productId}`
+        );
       }
-      const productData = productRecords[0];  // first matching record
+      const productData = productRecords[0]; // first matching record
 
       // Fetch shipping data based on productId
-      const responseShipping = await airtableAxios.get('/shipping', {
+      const responseShipping = await airtableAxios.get("/shipping", {
         params: {
           filterByFormula: `{productId} = ${cartItem.productId}`,
-          fields: ['destination', 'price']
-        }
+          fields: ["destination", "price"],
+        },
       });
 
-     
-      
       const shippingRecords = responseShipping.data.records;
       const shipping = shippingRecords.map((shipping: any) => {
-        console.log('Raw shipping price:', shipping.fields.price); // Log raw shipping price
+        console.log("Raw shipping price:", shipping.fields.price); // Log raw shipping price
         return {
           destination: shipping.fields.destination,
-          price: Number(shipping.fields.price) // Convert to number
+          price: Number(shipping.fields.price), // Convert to number
         };
       });
-      console.log("shipping; " ,shipping);
+      console.log("shipping; ", shipping);
 
       // Return the data for each product in cart
       return {
@@ -259,7 +264,7 @@ export const fetchCartInfo = async (cartHolder: CartHolder[]): Promise<CartDataT
         productImg: productData.fields.imgUrl,
         quantity: cartItem.quantity,
         subtotal: productData.fields.salesPrice * cartItem.quantity, // Calculate subtotal
-        shipping // Shipping options
+        shipping, // Shipping options
       };
     });
 
@@ -267,26 +272,141 @@ export const fetchCartInfo = async (cartHolder: CartHolder[]): Promise<CartDataT
     const cartData = await Promise.all(cartDataPromises);
     return cartData;
   } catch (error) {
-    console.error('Error fetching product or shipping data:', error);
+    console.error("Error fetching product or shipping data:", error);
     throw error;
   }
 };
 
-
 // Add Favorite Shop
-export const addFavShop = async (favShops: FavShops[]) => {
+export const addFavShop = async (favSeller: FavSeller) => {
   try {
-    const response = await airtableAxios.post('/favShops', {
+    const response = await airtableAxios.post("/favSellers", {
       fields: {
-        favId,
-        userId,
-        shopId
-        
+        // favId: favSeller.favId,
+        userId: [favSeller.userId],
+        shopId: [favSeller.shopId],
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error adding favorite shop:', error);
+    console.error("Error adding favorite shop:", error);
+    throw error;
+  }
+};
+// Add Favourite Search
+export const addFavSearch = async (favSearch: FavSearch) => {
+  try {
+    const response = await airtableAxios.post("/favSearches", {
+      fields: {
+        userId: [favSearch.userId],
+        keyword: [favSearch.keyword],
+        categoryId: [favSearch.categoryId],
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding favorite search:", error);
+    throw error;
+  }
+};
+
+// fecth favSearch
+export const fetchFavSearchs = async (): Promise<Search[]> => {
+  try{
+    const favSearchesResponse = await airtableAxios.get("/favSearches");
+    const favSearches = favSearchesResponse.data.records;
+    if(!favSearches || favSearches.length === 0){
+      console.warn("No gav search found");
+      return []
+    }
+    console.log("fetch favourite searches data: ", favSearches);
+
+    const searchDetailPromises = favSearches.map(async (favSearch: any) => {
+      const fields = favSearch.fields;
+      if(!fields || !fields.favSearch){
+        console.warn("Missing fields  ", favSearch);
+        return null;
+      }
+
+      const searchIdArray = fields.categoryId;
+      console.log ("searchIdArray: ", searchIdArray);
+      if(!searchIdArray || !searchIdArray[0]){
+        console.warn("Missing searchId: ", favSearch);
+        return null;
+      }
+      const searchId = searchIdArray[0];
+
+      const searchResponse = await airtableAxios.get`/categories`, {
+        params: {
+          filterByFormula: `RECORD_ID()= '${}'`
+        }
+      })
+
+    })
+
+    
+  }catch(error){
+    console.error("Error fetching Fav search: ", error);
+  }
+}
+// fecth favShop
+export const fetchFavShops = async (): Promise<Seller[]> => {
+  try {
+    const favShopsResponse = await airtableAxios.get("/favSellers");
+    const favShops = favShopsResponse.data.records;
+    if (!favShops || favShops.length === 0) {
+      console.warn("No fav shop found");
+      return [];
+    }
+
+    console.log("Fetched favourite shops data: ", favShops);
+
+    const shopDetailsPromises = favShops.map(async (favShop: any) => {
+      const fields = favShop.fields;
+      if (!fields) {
+        console.warn("Missing fields  ", favShop);
+        return null;
+      } else if (!fields.shopId) {
+        console.warn("shopId in fav shop: ", favShop);
+        return null;
+      }
+
+      const shopIdArray = fields.shopId;
+      console.log("shopIdArray: ", shopIdArray);
+      if (!shopIdArray || !shopIdArray[0]) {
+        console.warn("Missing shopId in  av shop: ", favShop);
+        return null;
+      }
+      const shopId = shopIdArray[0];
+      console.log("Fetching shop details for shopId; ", shopId);
+
+      const shopResponse = await airtableAxios.get(`/shops`, {
+        params: {
+          filterByFormula: `RECORD_ID()= '${shopId}'`,
+          fields: ["shopName", "profileImg", "stars"],
+        },
+      });
+
+      const shopRecord = shopResponse.data.records[0];
+      if (!shopRecord || !shopRecord.fields) {
+        console.warn("No matchin shop found for shopId: ", shopId);
+        return null;
+      }
+      console.log("Fetch shop record: ", shopRecord);
+      return {
+        favId: fields.favId,
+        userId: fields.userId,
+        shopId: fields.shopId,
+        shopname: shopRecord.fields.shopName,
+        img: shopRecord.fields.profileImg,
+        stars: shopRecord.fields.stars,
+      } as Seller;
+    });
+
+    const shopDetails = await Promise.all(shopDetailsPromises);
+    return shopDetails.filter((shop) => shop !== null) as Seller[];
+  } catch (error) {
+    console.error("Error fetching favorite shops:", error);
     throw error;
   }
 };

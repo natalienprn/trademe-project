@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './FavCard.css'
 import FavCard from './FavCard';
 import { useFavourites } from '../../commonLogic/FavouritesContext';
@@ -12,7 +12,9 @@ import { useFavourites } from '../../commonLogic/FavouritesContext';
 // }
 
 const FavSellers:React.FC = () =>{
-    const { sellers } = useFavourites();
+    const {sellers}= useFavourites();
+    // const { sellers } = useFavourites();
+    
     return(
         <div className='wrapper'>
             <div className='topic'>
@@ -28,3 +30,4 @@ const FavSellers:React.FC = () =>{
     );
 };
 export default FavSellers;
+

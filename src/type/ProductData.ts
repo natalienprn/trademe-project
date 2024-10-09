@@ -8,6 +8,7 @@ export interface ProductData {
     condition: string;
     variance: string;
     brand: string;
+    shopId: string;
     shopName: string;
     fullDescriptions: string;
     shippingDeals: string;

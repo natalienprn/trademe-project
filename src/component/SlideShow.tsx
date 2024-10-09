@@ -26,7 +26,7 @@ const SlideShow: React.FC<SlideshowProps> = ({ images }) => {
   return (
     <div className="gallery-container">
       <div className="photo-screen">
-        <img src={images[currentImageIndex]} alt={`Shop`} />
+        <img loading='lazy'src={images[currentImageIndex]} alt={`Shop`} />
         <div className="navigation-arrows">
         <span className="arrow-left-big" onClick={handlePrevClick}>
           <img src={IconArrowLeftWhite}/>
@@ -40,6 +40,7 @@ const SlideShow: React.FC<SlideshowProps> = ({ images }) => {
         {images.map((image, index) => (
             <div className={index === currentImageIndex ? 'active-thumbnail' : 'thumbnail-wrapper'}>
           <img
+          loading='lazy'
             key={index}
             src={image}
             alt={`Thumbnail ${index + 1}`}
