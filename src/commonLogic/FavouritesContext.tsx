@@ -1,14 +1,17 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { FavSeller, FavSearch, FavCate, Seller } from "../type/FavType"; 
-import { addFavShop, fetchFavShops } from "./AirtableService";
+import { FavSeller, FavSearch, FavCate, Seller, Search } from "../type/FavType"; 
+import { addFavSearch, addFavShop, fetchFavSearchs, fetchFavShops } from "./AirtableService";
 
 interface FavouritesContextType{
     // sellers: FavSeller[];
     sellers: Seller[];
     loadSellers: () => Promise<void>;  
     addSeller: (seller: FavSeller) => Promise<void>;
-    searches: FavSearch[];
-    addSearch: (search: FavSearch) => void;
+
+    searches: Search[];
+    loadSearchs: () => Promise<void>;
+    addSearch: (search: FavSearch) => Promise<void>;
+
     categories: FavCate[];
     addCategory: (category: FavCate) => void;
 }
@@ -17,7 +20,7 @@ const FavouritesContext = createContext<FavouritesContextType | undefined>(undef
 export const FavouritesProvider: React.FC<{ children: ReactNode}> = ({children}) =>{
     // const [sellers, setSellers] = useState<FavSeller[]>([]);
     const [sellers, setSellers] =  useState<Seller[]>([]);
-    const [searches, setSearches] = useState<FavSearch[]>([]);
+    const [searches, setSearches] = useState<Search[]>([]);
     const [categories, setCategories] = useState<FavCate[]>([]);
 
     // const addSeller = (seller: FavSeller) =>{
@@ -39,8 +42,22 @@ export const FavouritesProvider: React.FC<{ children: ReactNode}> = ({children})
         };
         
     }
-    const addSearch = (search: FavSearch) =>{
-        setSearches((prevSearches) => [...prevSearches, search]);
+    const loadSearchs = async () => {
+        try {
+            const favSearchs = await fetchFavSearchs();
+            setSearches(favSearchs);
+        }catch(error){
+            console.error("Error loading searches: ", error)
+        }
+    }
+    const addSearch = async (search: FavSearch) =>{
+        // setSearches((prevSearches) => [...prevSearches, search]);
+        try{
+            console.log("Add search : ", search);
+            await addFavSearch(search);
+        }catch(error){
+            console.error("Error adding search: ", error);
+        }
     }
     const addCategory = (category: FavCate) => {
         setCategories((prevCategories) => [...prevCategories, category]);
@@ -50,8 +67,12 @@ export const FavouritesProvider: React.FC<{ children: ReactNode}> = ({children})
         console.log("loadSeller");
         loadSellers();
     },[]);
+    useEffect(()=>{
+        console.log("loadSeller");
+        loadSearchs();
+    },[]);
     return(
-        <FavouritesContext.Provider value={{sellers,loadSellers ,addSeller, searches, addSearch, categories, addCategory}}>
+        <FavouritesContext.Provider value={{sellers,loadSellers ,addSeller, searches, loadSearchs, addSearch, categories, addCategory}}>
             {children}
         </FavouritesContext.Provider>
     );

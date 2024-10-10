@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './FavCard.css'
 import FavCard from './FavCard';
 import { useFavourites } from '../../commonLogic/FavouritesContext';
@@ -12,6 +12,7 @@ import { useFavourites } from '../../commonLogic/FavouritesContext';
 // }
 const FavSearches:React.FC = () =>{
     const {searches} = useFavourites();
+    
     return(
         <div className='wrapper'>
             <div className='topic'>
@@ -19,7 +20,7 @@ const FavSearches:React.FC = () =>{
             </div>
             <div className='card-container'>
                 {searches.map((search, index) => (
-                    <FavCard key={index} title={search.title} cate={search.cate} type='search'/>
+                    <FavCard key={index} title={search.keyword} cate={search.cate} type='search'/>
                 ))}
             </div>
             

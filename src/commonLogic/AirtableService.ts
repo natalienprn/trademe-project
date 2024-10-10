@@ -293,16 +293,18 @@ export const addFavShop = async (favSeller: FavSeller) => {
     throw error;
   }
 };
+
 // Add Favourite Search
 export const addFavSearch = async (favSearch: FavSearch) => {
   try {
     const response = await airtableAxios.post("/favSearches", {
       fields: {
         userId: [favSearch.userId],
-        keyword: [favSearch.keyword],
+        keyword: favSearch.keyword,
         categoryId: [favSearch.categoryId],
       },
     });
+    console.log("Response Fav Search for POST: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error adding favorite search:", error);
@@ -323,30 +325,51 @@ export const fetchFavSearchs = async (): Promise<Search[]> => {
 
     const searchDetailPromises = favSearches.map(async (favSearch: any) => {
       const fields = favSearch.fields;
-      if(!fields || !fields.favSearch){
+      if(!fields ){
         console.warn("Missing fields  ", favSearch);
+        return null;
+      }else if(!fields.favSearch){
+        console.warn("CateId in favSearch: ", favSearch);
         return null;
       }
 
-      const searchIdArray = fields.categoryId;
-      console.log ("searchIdArray: ", searchIdArray);
-      if(!searchIdArray || !searchIdArray[0]){
+      const cateIdArray = fields.categoryId;
+      console.log ("searchIdArray: ", cateIdArray);
+      if(!cateIdArray || !cateIdArray[0]){
         console.warn("Missing searchId: ", favSearch);
         return null;
       }
-      const searchId = searchIdArray[0];
+      const cateId = cateIdArray[0];
+      console.log("Fetching CateId for favSearch: ", cateId);
 
-      const searchResponse = await airtableAxios.get`/categories`, {
+      const searchResponse = await airtableAxios.get(`/categories`, {
         params: {
-          filterByFormula: `RECORD_ID()= '${}'`
+          filterByFormula: `RECORD_ID()= '${cateId}'`,
+          fields: ["category"]
         }
-      })
+        
+      });
+      const cateRecord = searchResponse.data.records[0];
+      if (!cateRecord || !cateRecord.fields) {
+        console.warn("No matchin categoey found for cateId: ", cateId);
+        return null;
+      }
+      console.log("Fetch cate record: ", cateRecord);
+      return {
+        favId: fields.favId,
+        userId: fields.userId,
+        cateId: fields.cateId,
+        keyword: cateRecord.fields.keyword,
+        cate: cateRecord.fields.category,
+      } as Search;
+    });
 
-    })
-
-    
+    const searchDetails = await Promise.all(searchDetailPromises);
+    return searchDetails.filter((search) => search !== null) as Search[];
+ 
   }catch(error){
     console.error("Error fetching Fav search: ", error);
+    throw error;
   }
 }
 // fecth favShop

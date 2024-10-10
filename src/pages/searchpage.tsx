@@ -77,10 +77,12 @@ function SearchPage() {
   }, [keyword, categoryId]);
   const handleAddFavSearchs = () => {
     const newSearch = {
-      title: keyword,
-      cate: currentCategory,
-      type: 'search'
+      userId: 'recDOf2cYptH3Qc1G',
+      keyword: keyword,
+      categoryId: 'recdvZMHA8aX0kwFu',
+    
     }
+    console.log("added keyword: ", newSearch.keyword);
     addSearch(newSearch);
     alert("Added to Favourit search!");
 

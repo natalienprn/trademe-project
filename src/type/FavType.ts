@@ -6,7 +6,7 @@ export interface FavSeller{
 }
 
 export interface FavSearch{
-    favId: string;
+    // favId: string;
     userId: string;
     keyword: string;
     categoryId: string;
@@ -25,9 +25,8 @@ export interface Seller{
     stars: number;
 }
 export interface Search{
-    title:string;
+    keyword:string;
     cate: string;
-    type: string;
 
 }
 export interface Category{
