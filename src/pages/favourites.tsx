@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Link, useLocation } from 'react-router-dom';
 import './favourites.css'
 import UtilityBar from '../component/header/UtilityBar';
@@ -19,6 +20,7 @@ import FavSearches from '../component/fav-content/Searches';
 import FavCategories from '../component/fav-content/Categoies';
 import FavSellers from '../component/fav-content/Sellers';
 import { useFavourites } from '../commonLogic/FavouritesContext';
+import { useEffect } from 'react';
 
 
 
@@ -26,9 +28,9 @@ import { useFavourites } from '../commonLogic/FavouritesContext';
 
 const Favourites:React.FC = () => {
     const location = useLocation();
-    const {sellers: FavouriteSellers} = useFavourites();
+    const {sellers: FavouriteSellers, loadSellers} = useFavourites();
     const {categories: FavouriteCategories} = useFavourites();
-    const {searches: FavouriteSearches} = useFavourites();
+    const {searches: FavouriteSearches, loadSearchs} = useFavourites();
 
     const renderContent = () =>{
         switch(location.pathname){
@@ -40,6 +42,22 @@ const Favourites:React.FC = () => {
                 return <FavSearches />;
         }
     }
+    // useEffect(() => {
+    //     if(location.pathname === '/favourites/sellers'){
+    //       console.log ("Load seller");
+    //     loadSellers();  
+    //     }
+    //     else if(location.pathname === '/favourites/searches'){
+    //         console.log ("Load searches");
+    //         loadSearchs();
+    //     }
+        
+    // }, [location.pathname]);
+    useEffect(() => {
+        loadSearchs();
+        loadSellers();
+    },[]);
+
 
     return (
         <div className='wrapper'>

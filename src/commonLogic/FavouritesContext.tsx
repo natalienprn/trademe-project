@@ -63,14 +63,7 @@ export const FavouritesProvider: React.FC<{ children: ReactNode}> = ({children})
         setCategories((prevCategories) => [...prevCategories, category]);
     }
 
-    useEffect(()=>{
-        console.log("loadSeller");
-        loadSellers();
-    },[]);
-    useEffect(()=>{
-        console.log("loadSeller");
-        loadSearchs();
-    },[]);
+    
     return(
         <FavouritesContext.Provider value={{sellers,loadSellers ,addSeller, searches, loadSearchs, addSearch, categories, addCategory}}>
             {children}

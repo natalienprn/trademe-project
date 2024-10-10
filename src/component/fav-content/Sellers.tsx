@@ -12,7 +12,7 @@ import { useFavourites } from '../../commonLogic/FavouritesContext';
 // }
 
 const FavSellers:React.FC = () =>{
-    const {sellers}= useFavourites();
+    const {sellers, loadSellers}= useFavourites();
     // const { sellers } = useFavourites();
     
     return(

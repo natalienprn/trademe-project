@@ -312,66 +312,65 @@ export const addFavSearch = async (favSearch: FavSearch) => {
   }
 };
 
-// fecth favSearch
+// Fetch favorite searches
 export const fetchFavSearchs = async (): Promise<Search[]> => {
-  try{
+  try {
     const favSearchesResponse = await airtableAxios.get("/favSearches");
     const favSearches = favSearchesResponse.data.records;
-    if(!favSearches || favSearches.length === 0){
-      console.warn("No gav search found");
-      return []
+    if (!favSearches || favSearches.length === 0) {
+      console.warn("No favorite search found");
+      return [];
     }
-    console.log("fetch favourite searches data: ", favSearches);
+    console.log("Fetched favourite searches data: ", favSearches);
 
     const searchDetailPromises = favSearches.map(async (favSearch: any) => {
       const fields = favSearch.fields;
-      if(!fields ){
-        console.warn("Missing fields  ", favSearch);
-        return null;
-      }else if(!fields.favSearch){
-        console.warn("CateId in favSearch: ", favSearch);
+      if (!fields) {
+        console.warn("Missing fields: ", favSearch);
         return null;
       }
 
-      const cateIdArray = fields.categoryId;
-      console.log ("searchIdArray: ", cateIdArray);
-      if(!cateIdArray || !cateIdArray[0]){
-        console.warn("Missing searchId: ", favSearch);
+      // Extract necessary fields from FavSearch
+      const { keyword, categoryId } = fields;
+      if (!categoryId || !keyword) {
+        console.warn("Missing categoryId or keyword in favSearch: ", favSearch);
         return null;
       }
-      const cateId = cateIdArray[0];
-      console.log("Fetching CateId for favSearch: ", cateId);
 
+      console.log("Fetching category details for categoryId: ", categoryId);
+
+      // Fetch the category details using the categoryId
       const searchResponse = await airtableAxios.get(`/categories`, {
         params: {
-          filterByFormula: `RECORD_ID()= '${cateId}'`,
+          filterByFormula: `RECORD_ID()= '${categoryId}'`,
           fields: ["category"]
         }
-        
       });
+
       const cateRecord = searchResponse.data.records[0];
       if (!cateRecord || !cateRecord.fields) {
-        console.warn("No matchin categoey found for cateId: ", cateId);
+        console.warn("No matching category found for categoryId: ", categoryId);
         return null;
       }
-      console.log("Fetch cate record: ", cateRecord);
+
+      const category = cateRecord.fields.category;
+      console.log("Fetched category record: ", cateRecord);
+
+      // Return a Search object that matches the interface
       return {
-        favId: fields.favId,
-        userId: fields.userId,
-        cateId: fields.cateId,
-        keyword: cateRecord.fields.keyword,
-        cate: cateRecord.fields.category,
+        keyword: keyword,
+        cate: category,
       } as Search;
     });
 
     const searchDetails = await Promise.all(searchDetailPromises);
     return searchDetails.filter((search) => search !== null) as Search[];
- 
-  }catch(error){
-    console.error("Error fetching Fav search: ", error);
+  } catch (error) {
+    console.error("Error fetching favourite searches: ", error);
     throw error;
   }
-}
+};
+
 // fecth favShop
 export const fetchFavShops = async (): Promise<Seller[]> => {
   try {
